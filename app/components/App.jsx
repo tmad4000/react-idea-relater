@@ -1,5 +1,6 @@
 import React from 'react'
 import Notes from './Notes.jsx'
+import AddRelatedForm from './AddRelatedForm.jsx'
 import uuid from 'node-uuid'
 
 export default class App extends React.Component {
@@ -78,34 +79,43 @@ export default class App extends React.Component {
 
   }
 
-  addNote = () => {
+  addNote = (text = "New task") => {
+    const id = uuid.v4();
     this.setState({
       notes: this.state.notes.concat(
         [
           {
-            id: uuid.v4(),
-            task: "New task"
+            id,
+            task: text
           }
         ])
     });
+
+    return id;
   }
 
 
   render() {
-    const notes = this.state.notes;
-
+    const {notes, relations} = this.state;
 
     return (
       <div>
         <br />
+        {/*<AddRelatedForm
+          note={null}
+          relatedNotes={[]}
+          relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
+          allNotes={notes} />*/}
+
         <button onClick={this.addNote}>+</button>
         <Notes
           addRelation={this.addRelation}
+          addNote={this.addNote}
           onEdit={this.editNote}
           notes={notes}
-          relations={this.state.relations}
-          />
-      <pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>
+          relations={relations}
+        />
+        <pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>
       </div>
     )
 

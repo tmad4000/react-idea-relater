@@ -52,15 +52,22 @@ export default class Note extends React.Component {
         defaultValue={task} />;
     }
 
-  return <div>{todoDiv}<AddRelatedForm
-    note={this.props.note}
-    relatedNotes={this.props.relatedNotes}
-    relateToRootIdea={ (targetId) => this.props.addRelation(id, targetId) }
-    allNotes={this.props.allNotes} /></div>
+  return <div>
+    {todoDiv}
+    <AddRelatedForm
+      note={this.props.note}
+      relatedNotes={this.props.relatedNotes}
+      relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
+      addNote={this.props.addNote}
+      allNotes={this.props.allNotes}
+    />
+    </div>
   }
 }
 
 Note.propTypes = {
   onEdit: React.PropTypes.func.isRequired,
-  allNotes: React.PropTypes.array.isRequired
+  allNotes: React.PropTypes.array.isRequired,
+  addRelation: React.PropTypes.func.isRequired,
+  addNote: React.PropTypes.func.isRequired,
 };

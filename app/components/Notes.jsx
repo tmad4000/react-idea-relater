@@ -16,6 +16,7 @@ export default class Notes extends React.Component {
                                   note={note}
                                   allNotes={this.props.notes}
                                   addRelation={this.props.addRelation}
+                                  addNote={this.props.addNote}
                                   relatedNotes={
                                     this.props.relations.filter(
                                       (relation) => note.id === relation.sourceId
@@ -41,6 +42,7 @@ export default class Notes extends React.Component {
 Notes.propTypes = {
   onEdit: React.PropTypes.func.isRequired,
   addRelation: React.PropTypes.func.isRequired,
+  addNote: React.PropTypes.func.isRequired,
   notes: React.PropTypes.array.isRequired,
   relations: React.PropTypes.array.isRequired
 };
