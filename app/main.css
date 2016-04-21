@@ -1,3 +1,8 @@
 body {
   background: cornsilk;
 }
+
+li.suggestion:hover {
+  background-color: gray;
+  cursor:pointer;
+}

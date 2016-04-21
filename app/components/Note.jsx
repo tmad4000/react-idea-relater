@@ -33,25 +33,30 @@ export default class Note extends React.Component {
 
 
   render() {
+    const {id, task} = this.props.note
 
     let todoDiv;
     if(!this.state.editing) {
-      todoDiv = <span onClick={this.edit} >{this.props.task}
+      todoDiv = <span onClick={this.edit} >{task}
        &nbsp;
       </span>
     }
     else {
       todoDiv = <input type="text"
         ref = {
-          (e) => e ? e.selectionStart = this.props.task.length : null
+          (e) => e ? e.selectionStart = task.length : null
         }
         autoFocus={true}
         onBlur={this.finishEdit}
         onKeyPress={this.checkEnter}
-        defaultValue={this.props.task} />;
+        defaultValue={task} />;
     }
 
-  return <div>{todoDiv} <AddRelatedForm allNotes={this.props.allNotes} /></div>
+  return <div>{todoDiv}<AddRelatedForm
+    note={this.props.note}
+    relatedNotes={this.props.relatedNotes}
+    relateToRootIdea={ (targetId) => this.props.addRelation(id, targetId) }
+    allNotes={this.props.allNotes} /></div>
   }
 }
 

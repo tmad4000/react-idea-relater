@@ -8,36 +8,32 @@ export default class App extends React.Component {
     super(props)
     this.state={
 
-       notes : [
-        {
-          id: uuid.v4(),
-          task: 'Learn Webpack'
-        },
-        {
-          id: uuid.v4(),
-          task: 'Learn React'
-        },
-        {
-          id: uuid.v4(),
-          task: 'Do laundry'
-        }
-      ],
+             notes : [
+              {
+                id: uuid.v4(),
+                task: 'Learn Webpack'
+              },
+              {
+                id: uuid.v4(),
+                task: 'Learn React'
+              },
+              {
+                id: uuid.v4(),
+                task: 'Do laundry'
+              }
+            ],
+            relations : [
 
+            ]
     }
-  }
 
-  render() {
-    const notes = this.state.notes;
-
-
-    return (
-      <div>
-        <br />
-        <button onClick={this.addNote}>+</button>
-        <Notes onEdit={this.editNote} notes={notes} />
-
-      </div>
-    )
+    // relation:
+    // {
+    //   id: uuid.v4(),
+    //   sourceId: uuid.v4(),
+    //   targetId: uuid.v4(),
+    //   label: 'Learn Webpack'
+    // }
 
   }
 
@@ -57,7 +53,30 @@ export default class App extends React.Component {
       //    })
   }
 
+  addRelation = (sourceId, targetId) => {
+    if(sourceId === targetId) {
+      console.error("reflexive relation attempt!", sourceId)
+      return false
+    }
 
+    this.setState({
+      relations: this.state.relations.concat(
+        [{
+          id: uuid.v4(),
+          sourceId: sourceId,
+          targetId: targetId,
+          label: ''
+        },
+        {
+          id: uuid.v4(),
+          sourceId: targetId,
+          targetId: sourceId,
+          label: ''
+        }]
+      )
+    })
+
+  }
 
   addNote = () => {
     this.setState({
@@ -70,4 +89,26 @@ export default class App extends React.Component {
         ])
     });
   }
+
+
+  render() {
+    const notes = this.state.notes;
+
+
+    return (
+      <div>
+        <br />
+        <button onClick={this.addNote}>+</button>
+        <Notes
+          addRelation={this.addRelation}
+          onEdit={this.editNote}
+          notes={notes}
+          relations={this.state.relations}
+          />
+      <pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>
+      </div>
+    )
+
+  }
+
 }
