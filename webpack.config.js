@@ -45,7 +45,7 @@ const entryOutput = {
 
 if(TARGET ==="start" || !TARGET)
   module.exports=Object.assign({
-    devtool: 'eval-source-map',
+    devtool: 'source-map',
 
     devServer: {
       contentBase: PATHS.build,

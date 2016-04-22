@@ -107,7 +107,7 @@ export default class App extends React.Component {
           relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
           allNotes={notes} />*/}
 
-        <button onClick={this.addNote}>+</button>
+        <button onClick={() => this.addNote()}>+</button>
         <Notes
           addRelation={this.addRelation}
           addNote={this.addNote}
