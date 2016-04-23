@@ -7,77 +7,48 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state={
-
-             notes : [
-              {
-                id: uuid.v4(),
-                task: 'Learn Webpack'
-              },
-              {
-                id: uuid.v4(),
-                task: 'Learn React'
-              },
-              {
-                id: uuid.v4(),
-                task: 'Do laundry'
-              }
-            ],
-            relations : [
-
-            ]
-    }
-
-    // relation:
-    // {
-    //   id: uuid.v4(),
-    //   sourceId: uuid.v4(),
-    //   targetId: uuid.v4(),
-    //   label: 'Learn Webpack'
-    // }
-
   }
 
 
-  editNote = (id, value) => {
-      const notes = this.state.notes.map( (note) => {
-              if (note.id === id)
-                  note.task = value
-              return note
-          })
+  // editNote = (id, value) => {
+  //     const notes = this.state.notes.map( (note) => {
+  //             if (note.id === id)
+  //                 note.task = value
+  //             return note
+  //         })
+  //
+  //
+  //     this.setState({notes})
+  //
+  //     //this.setState({
+  //     //        notes: newNotes
+  //     //    })
+  // }
 
-
-      this.setState({notes})
-
-      //this.setState({
-      //        notes: newNotes
-      //    })
-  }
-
-  addRelation = (sourceId, targetId) => {
-    if(sourceId === targetId) {
-      console.error("reflexive relation attempt!", sourceId)
-      return false
-    }
-
-    this.setState({
-      relations: this.state.relations.concat(
-        [{
-          id: uuid.v4(),
-          sourceId: sourceId,
-          targetId: targetId,
-          label: ''
-        },
-        {
-          id: uuid.v4(),
-          sourceId: targetId,
-          targetId: sourceId,
-          label: ''
-        }]
-      )
-    })
-
-  }
+  // addRelation = (sourceId, targetId) => {
+  //   if(sourceId === targetId) {
+  //     console.error("reflexive relation attempt!", sourceId)
+  //     return false
+  //   }
+  //
+  //   this.setState({
+  //     relations: this.state.relations.concat(
+  //       [{
+  //         id: uuid.v4(),
+  //         sourceId: sourceId,
+  //         targetId: targetId,
+  //         label: ''
+  //       },
+  //       {
+  //         id: uuid.v4(),
+  //         sourceId: targetId,
+  //         targetId: sourceId,
+  //         label: ''
+  //       }]
+  //     )
+  //   })
+  //
+  // }
 
   addNote = (text = "New task") => {
     const id = uuid.v4();
@@ -115,7 +86,7 @@ export default class App extends React.Component {
           notes={notes}
           relations={relations}
         />
-        <pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>
+        {/*<pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>*/}
       </div>
     )
 
