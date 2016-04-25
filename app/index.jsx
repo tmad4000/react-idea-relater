@@ -8,12 +8,12 @@ import App from './containers/App.jsx'
 import {Provider} from 'react-redux'
 import {createStore} from 'redux'
 
-import notesGraphApp from './reducers'
+import mainReducerApp from './reducers'
 
 import uuid from 'node-uuid'
 
 const initialState = {
-               notes : [
+               notesList : [
                 {
                   id: uuid.v4(),
                   text: 'Learn Webpack'
@@ -27,12 +27,11 @@ const initialState = {
                   text: 'Do laundry'
                 }
               ],
-              relations : [
-
-              ]
+              counter:15,
+              stateStack: [],
             }
 
-let store = createStore(notesGraphApp, initialState)
+let store = createStore(mainReducerApp, initialState)
 
 ReactDOM.render(
   <Provider store={store}>

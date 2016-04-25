@@ -8,3 +8,15 @@ export const addNote = (text) => {
     text
   }
 }
+
+export const incr = () => {
+  return {
+    type: 'INCR'
+  }
+}
+
+export const undo = () => {
+  return {
+    type: 'UNDO'
+  }
+}

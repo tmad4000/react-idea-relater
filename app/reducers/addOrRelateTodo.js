@@ -1,53 +1,5 @@
 
-//
-// addRelation = (sourceId, targetId) => {
-//   if(sourceId === targetId) {
-//     console.error("reflexive relation attempt!", sourceId)
-//     return false
-//   }
-//
-//   this.setState({
-//     relations: this.state.relations.concat(
-//       [{
-//         id: uuid.v4(),
-//         sourceId: sourceId,
-//         targetId: targetId,
-//         label: ''
-//       },
-//       {
-//         id: uuid.v4(),
-//         sourceId: targetId,
-//         targetId: sourceId,
-//         label: ''
-//       }]
-//     )
-//   })
-//
-// }
-//
-//
-// const todo = (state, action) => {
-//   switch (action.type) {
-//     case 'ADD_NOTE':
-//       return {
-//         id: action.id,
-//         text: action.text,
-//         completed: false
-//       }
-//     case 'TOGGLE_TODO':
-//       if (state.id !== action.id) {
-//         return state
-//       }
-//
-//       return Object.assign({}, state, {
-//         completed: !state.completed
-//       })
-//     default:
-//       return state
-//   }
-// }
-
-export const handleNotesActions = (state = [], action) => {
+export const handleNotesActions = (state, action) => {
   switch (action.type) {
     case 'ADD_NOTE':
       const newNote = {
@@ -66,24 +18,26 @@ export const handleNotesActions = (state = [], action) => {
 
 }
 
-// const handleRelationsActions = (state = [], action) => {
-//   switch (action.type) {
-//     case 'addRelation':
-//       const newNote = {
-//         id: action.id,
-//         text: action.text,
-//         completed: false
-//       }
-//
-//       return [
-//         ...state,
-//         newNote
-//       ]
-//
-//     default:
-//       return state
-//   }
-// }
+export const handleCounter = (state, action) => {
+  switch (action.type) {
+    case 'INCR':
+      return state + 1
 
+    default:
+      return state
+  }
 
-// export handleRelationsActions
+}
+
+export const undoReducer = (state, action) => {
+  switch (action.type) {
+    case 'UNDO':
+      return state.stateStack.slice(-1).pop()
+
+    default:
+      return Object.assign({}, state, {
+        stateStack: state.stateStack.concat([state])
+      })
+  }
+
+}
