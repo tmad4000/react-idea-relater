@@ -34,7 +34,7 @@ export default class Notes extends React.Component {
 
 
 
-      //<Note onEdit={this.props.onEdit.bind(undefined,n.id)} task={n.task} />
+      //<Note onEdit={this.props.onEdit.bind(undefined,n.id)} text={n.text} />
 
 }
 

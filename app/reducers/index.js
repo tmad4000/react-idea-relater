@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux'
-import {handleNotesActions, handleRelationsActions} from './addOrRelateTodo.js'
-import visibilityFilter from './visibilityFilter'
+import {handleNotesActions} from './addOrRelateTodo.js'
 
 
 const notesGraph = combineReducers({
-  notes:handleNotesActions,
+  notesss:handleNotesActions,
 })
 //
 // const notesGraph = combineReducers({

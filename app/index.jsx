@@ -2,10 +2,12 @@ require('./main.css');
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './components/App.jsx'
+import App from './containers/App.jsx'
 
-import {createStore} from 'redux'
+
 import {Provider} from 'react-redux'
+import {createStore} from 'redux'
+
 import notesGraphApp from './reducers'
 
 import uuid from 'node-uuid'
@@ -14,21 +16,21 @@ const initialState = {
                notes : [
                 {
                   id: uuid.v4(),
-                  task: 'Learn Webpack'
+                  text: 'Learn Webpack'
                 },
                 {
                   id: uuid.v4(),
-                  task: 'Learn React'
+                  text: 'Learn React'
                 },
                 {
                   id: uuid.v4(),
-                  task: 'Do laundry'
+                  text: 'Do laundry'
                 }
               ],
               relations : [
 
               ]
-}
+            }
 
 let store = createStore(notesGraphApp, initialState)
 

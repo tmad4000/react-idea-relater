@@ -28,7 +28,7 @@
 //
 // const todo = (state, action) => {
 //   switch (action.type) {
-//     case 'ADD_TODO':
+//     case 'ADD_NOTE':
 //       return {
 //         id: action.id,
 //         text: action.text,
@@ -47,12 +47,12 @@
 //   }
 // }
 
-const handleNotesActions = (state = [], action) => {
+export const handleNotesActions = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_TODO':
+    case 'ADD_NOTE':
       const newNote = {
         id: action.id,
-        text: "New task",
+        text: "New text",
       }
 
       return [
@@ -86,6 +86,4 @@ const handleNotesActions = (state = [], action) => {
 // }
 
 
-
-export handleNotesActions
 // export handleRelationsActions

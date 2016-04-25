@@ -1,9 +1,12 @@
 import React from 'react'
-import Notes from './Notes.jsx'
-import AddRelatedForm from './AddRelatedForm.jsx'
+import Notes from '../components/Notes.jsx'
+import AddRelatedForm from '../components/AddRelatedForm.jsx'
+import { addNote } from '../actions'
+import { connect } from 'react-redux'
+
 import uuid from 'node-uuid'
 
-export default class App extends React.Component {
+class App extends React.Component {
 
   constructor(props) {
     super(props)
@@ -13,7 +16,7 @@ export default class App extends React.Component {
   // editNote = (id, value) => {
   //     const notes = this.state.notes.map( (note) => {
   //             if (note.id === id)
-  //                 note.task = value
+  //                 note.text = value
   //             return note
   //         })
   //
@@ -50,24 +53,13 @@ export default class App extends React.Component {
   //
   // }
 
-  addNote = (text = "New task") => {
-    const id = uuid.v4();
-    this.setState({
-      notes: this.state.notes.concat(
-        [
-          {
-            id,
-            task: text
-          }
-        ])
-    });
-
-    return id;
+  addNote = (text = "New text") => {
+    this.props.dispatch(addNote(text))
   }
 
 
   render() {
-    const {notes, relations} = this.state;
+    const {notes} = this.props;
 
     return (
       <div>
@@ -78,18 +70,27 @@ export default class App extends React.Component {
           relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
           allNotes={notes} />*/}
 
-        <button onClick={() => this.addNote()}>+</button>
+        <button onClick={this.addNote}>+</button>
         <Notes
           addRelation={this.addRelation}
           addNote={this.addNote}
           onEdit={this.editNote}
           notes={notes}
-          relations={relations}
+          relations={[]}
         />
-        {/*<pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>*/}
+        {/*<pkre>{JSON.stringify(this.state.relations, null, '\t')}</pre>*/}
       </div>
     )
 
   }
 
 }
+
+const mapStateToProps = (state) => {
+  return {
+    notes: state.notesss
+  }
+}
+
+
+export default connect(mapStateToProps)(App)

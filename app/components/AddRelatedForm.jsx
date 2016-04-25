@@ -28,7 +28,7 @@ export default class AddRelatedForm extends React.Component {
     render() {
       const suggestions = this.props.allNotes
         .filter( (note) => this.props.note && note.id !== this.props.note.id)
-        .filter( (note) => note.task.toLowerCase().indexOf(this.state.filter) !== -1);
+        .filter( (note) => note.text.toLowerCase().indexOf(this.state.filter) !== -1);
 
       const searchText = this.refs.addRelated ? this.refs.addRelated.value : "";
 
@@ -54,7 +54,7 @@ export default class AddRelatedForm extends React.Component {
                     onMouseDown={() => this.addRelated(suggestion.id)}
                     key={suggestion.id}
                   >
-                    {suggestion.task}
+                    {suggestion.text}
                   </li>
               })}
               <li
@@ -66,7 +66,7 @@ export default class AddRelatedForm extends React.Component {
           </ul>
 
 
-          <span style={{ marginLeft: "150px"}}>{this.props.relatedNotes.map( (note) => <span style={{border:"1px solid gray", marginRight: "10px"}}>{note.task}</span>)}</span>
+          <span style={{ marginLeft: "150px"}}>{this.props.relatedNotes.map( (note) => <span style={{border:"1px solid gray", marginRight: "10px"}}>{note.text}</span>)}</span>
 
         </span>
       );
