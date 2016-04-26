@@ -15,6 +15,14 @@ export const incr = () => {
   }
 }
 
+export const playCell = (key, turn) => {
+  return {
+    type: 'PLAY_CELL',
+    id: key, 
+    turn: turn
+  }
+}
+
 export const undo = () => {
   return {
     type: 'UNDO'

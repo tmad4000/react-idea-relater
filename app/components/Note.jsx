@@ -33,23 +33,23 @@ export default class Note extends React.Component {
 
 
   render() {
-    const {id, text} = this.props.note
+    const {id, task} = this.props.note
 
     let todoDiv;
     if(!this.state.editing) {
-      todoDiv = <span onClick={this.edit} >{text}
+      todoDiv = <span onClick={this.edit} >{task}
        &nbsp;
       </span>
     }
     else {
       todoDiv = <input type="text"
         ref = {
-          (e) => e ? e.selectionStart = text.length : null
+          (e) => e ? e.selectionStart = task.length : null
         }
         autoFocus={true}
         onBlur={this.finishEdit}
         onKeyPress={this.checkEnter}
-        defaultValue={text} />;
+        defaultValue={task} />;
     }
 
   return <div>

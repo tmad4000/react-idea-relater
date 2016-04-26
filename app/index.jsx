@@ -13,6 +13,22 @@ import mainReducerApp from './reducers'
 import uuid from 'node-uuid'
 
 const initialState = {
+
+              tttCells : {
+                [uuid.v4()]: "Z",
+                [uuid.v4()]: "Z",
+                [uuid.v4()]: "Z",
+
+                [uuid.v4()]: "Z",
+                [uuid.v4()]: "Z",
+                [uuid.v4()]: "Z",
+
+                [uuid.v4()]: "Z",
+                [uuid.v4()]: "Z",
+                [uuid.v4()]: "Z",
+              },
+
+
                notesList : [
                 {
                   id: uuid.v4(),
