@@ -6,7 +6,7 @@ export default class AddRelatedForm extends React.Component {
       super(props);
       this.state = {
         suggestingRelations: false,
-        suggestions: this.filterSuggestions(''),
+        filter:''
       }
     }
 
@@ -17,17 +17,17 @@ export default class AddRelatedForm extends React.Component {
     addRelated = (id) => {
       this.setState({ suggestingRelations: false });
       this.relateToCurrentIdea(id);
-      
+
       // this.refs.addRelated.focus()
       setTimeout(()=>this.refs.addRelated.focus(),10); //#hack
     }
 
-
-    filterSuggestions = (query) => {
+    //#question should i make this a pure function of props?
+    filteredSuggestions = (query) => {
       const {note, allNotes, relatedNotes} = this.props;
 
       let suggestions = allNotes
-        .filter( (currNote) => note && currNote.id !== note.id  && ! (currNote.id in relatedNotes.map( (n) => n.id )) );
+        .filter( (currNote) => note && currNote.id !== note.id  &&  ( relatedNotes.map( (n) => n.id ).indexOf(currNote.id) === -1 ) );
 
       
       const filter = query.toLowerCase();
@@ -45,19 +45,13 @@ export default class AddRelatedForm extends React.Component {
 
     }
 
-    handleFilterSuggestions = (query) => {
 
-      this.setState({suggestions: this.filterSuggestions(query)})
-
-    }
 
     createAndRelate = (text) => {
       const newNoteId = this.props.addNote(text);
-      this.setState({ suggestingRelations: false });
-      this.relateToCurrentIdea(newNoteId);
-      this.refs.addRelated.value = "";
-      // this.refs.addRelated.focus()
-      setTimeout(()=>this.refs.addRelated.focus(),10); //#hack
+      this.addRelated(newNoteId)
+
+      this.setState({filter:''})
     }
 
     render() {
@@ -77,13 +71,15 @@ export default class AddRelatedForm extends React.Component {
               style={{position:"absolute", left:"0px", width:"120px"}}
               type="text"
               placeholder="+ Add Related"
-              onChange={ (e) => this.handleFilterSuggestions(e.target.value) }
+              onChange={ (e) => this.setState({filter:e.target.value}) }
+              value={this.state.filter}
               ref="addRelated" />
 
             <ul style={{position:"absolute", left:"0px", top:"20px", padding:"0 3px", zIndex:999, backgroundColor:"white", width:"120px",
               display: (this.state.suggestingRelations ? "block" : "none") }}>
 
-              { this.state.suggestions.map( (suggestion) => {
+              { this.filteredSuggestions(this.state.filter)
+                .map( (suggestion) => {
                   return <li
                       className="suggestion"
                       onMouseDown={() => this.addRelated(suggestion.id)}
@@ -100,7 +96,7 @@ export default class AddRelatedForm extends React.Component {
                 >
                   {filterText.length>0 ? 
                     <span><span style={{color:"gray"}}>+ add &quot;</span>{filterText}<span style={{color:"gray"}}>&quot; as new idea and relate </span></span>
-                    : <span />  }
+                    : ''  }
                 </li>
             </ul>
 
