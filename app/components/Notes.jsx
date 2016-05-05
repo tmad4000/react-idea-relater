@@ -10,7 +10,7 @@ export default class Notes extends React.Component {
                 {
                     this.props.notes.map(
                         note =>
-                            <li key={note.id}>
+                            <li key={note.id} style={{margin:"10px"}}>
                                 <Note
                                   onEdit={ (value) => this.props.onEdit(note.id, value) }
                                   note={note}
@@ -34,7 +34,7 @@ export default class Notes extends React.Component {
 
 
 
-      //<Note onEdit={this.props.onEdit.bind(undefined,n.id)} task={n.task} />
+      //<Note onEdit={this.props.onEdit.bind(undefined,n.id)} txt={n.txt} />
 
 }
 

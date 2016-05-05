@@ -1,8 +1,29 @@
 body {
   background: cornsilk;
+  font-family: "Helvetica Neue",Helvetica, Arial,sans-serif;
+  font-size: 14px;
+}
+
+
+
+li.suggestion {
+  list-style-type:none;
+  padding: 2px
 }
 
 li.suggestion:hover {
-  background-color: gray;
+  background-color: lightgray;
   cursor:pointer;
+}
+
+textarea {   
+   font-family:Arial;  
+   font-size: 14px;   
+
+}
+#tags {
+	width:200px;
+	height:600px;
+	float:right;
+	border:solid lightgray 1px;
 }

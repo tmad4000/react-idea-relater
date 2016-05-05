@@ -238,13 +238,13 @@
   <component name="SvnConfiguration">
     <configuration />
   </component>
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
+  <component name="txtManager">
+    <txt active="true" id="Default" summary="Default txt">
       <changelist id="71c97335-27df-4da1-888b-6466b16f639f" name="Default" comment="" />
       <created>1460633661918</created>
       <option name="number" value="Default" />
       <updated>1460633661918</updated>
-    </task>
+    </txt>
     <servers />
   </component>
   <component name="ToolWindowManager">
