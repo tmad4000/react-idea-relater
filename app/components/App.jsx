@@ -60,7 +60,7 @@ export default class App extends React.Component {
     if(sourceId === targetId) {
       console.error("reflexive relation attempt!", sourceId)
       return false
-    }    
+    }
 
     if( this.state.relations.filter( (rel) => rel.sourceId === sourceId && rel.targetId === targetId ).length > 0 ) {
       console.error("relation already exists!", sourceId, targetId)
@@ -107,7 +107,7 @@ export default class App extends React.Component {
     const pdFilter = filter.toLowerCase();
 
     let fNotes = notes.filter( (currNote) => currNote.txt.toLowerCase().indexOf(pdFilter) !== -1)
-    
+
     fNotes=fNotes.map( (currNote) => {
         let hTxt=currNote.txt;
         if(pdFilter.length > 0) {
@@ -117,12 +117,35 @@ export default class App extends React.Component {
 
         return Object.assign({}, currNote, {htmlTxt:hTxt});
     });
-    
+
 
     return fNotes
 
   }
 
+  parseNotesFromText = (txt) => {
+    return txt.split("\n\n").map( (noteTxt, i) => {
+      return {
+        id: ''+ i,
+        txt: noteTxt
+      }
+    })
+  }
+
+  // parseNotesFromText = (text) => {
+  //   return txt.toLowerCase().split("\n\n").map( (noteTxt) => {
+  //     const relations = noteTxt.split("<>")
+  //     const note = splitNote.shift()
+  //
+  //     if ( splitNote.length > 1) {
+  //
+  //     }
+  //     return {
+  //       id: uuid.v4(),
+  //       txt: noteTxt
+  //     }
+  //   })
+  // }
 
 
 
@@ -146,7 +169,7 @@ export default class App extends React.Component {
           allNotes={notes} />*/}
 
 <div>
-        <label htmlFor="tags">Search Tags/Keywords: 
+        <label htmlFor="tags">Search Tags/Keywords:
         <br />
   </label>
 
@@ -178,9 +201,9 @@ export default class App extends React.Component {
         <pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>
 <br />
 <br />
-<div id="tags">
+{/*<div id="tags">
 asdf
-</div>
+</div>*/}
 
 To export letterspace docs:
   <pre>
@@ -189,7 +212,10 @@ To export letterspace docs:
   </pre>
 
 
-        <textarea cols="150" rows="30" id="log" tabIndex="1"></textarea>
+        <textarea cols="150" rows="30" id="log" tabIndex="1"
+          onChange={ (e) => this.setState({notes: this.parseNotesFromText(e.target.value)}) }
+          value = { this.state.notes.map( (note) => note.txt).join("\n\n") }
+></textarea>
 
       </div>
     )

@@ -1,4 +1,6 @@
 import React from 'react'
+import { encodeHtmlEntity } from '../utils'
+
 
 export default class AddRelatedForm extends React.Component {
 
@@ -30,7 +32,7 @@ export default class AddRelatedForm extends React.Component {
       let suggestions = allNotes
         .filter( (currNote) => note && currNote.id !== note.id  &&  ( relatedNotes.map( (n) => n.id ).indexOf(currNote.id) === -1 ) );
 
-      
+
       const pdFilter = this.state.filter.toLowerCase();
 
       if(pdFilter.length > 0) {
@@ -88,17 +90,17 @@ export default class AddRelatedForm extends React.Component {
                       className="suggestion"
                       onMouseDown={() => this.addRelated(suggestion.id)}
                       key={suggestion.id}
-                      dangerouslySetInnerHTML= {{__html:suggestion.txt}}
+                      dangerouslySetInnerHTML= {{__html:encodeHtmlEntity(suggestion.txt)}}
                     >
                   { /* #hack */}
-                     
+
                     </li>
                 })}
                 <li
                   className="suggestion"
-                  onMouseDown={() => this.createAndRelate(this.state.filter)}                
+                  onMouseDown={() => this.createAndRelate(this.state.filter)}
                 >
-                  {this.state.filter.length>0 ? 
+                  {this.state.filter.length>0 ?
                     <span><span style={{color:"gray"}}>+ add &quot;</span>{this.state.filter}<span style={{color:"gray"}}>&quot; as new idea and relate </span></span>
                     : ''  }
                 </li>
@@ -108,7 +110,7 @@ export default class AddRelatedForm extends React.Component {
 
           {/* output related notes list */ }
           <span style={{ marginLeft: "150px" }}>
-            {relatedNotes.map( (note) => 
+            {relatedNotes.map( (note) =>
               <span key={"relatedNote" + note.id} style={{border:"1px solid lightgray", margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px", color:"maroon"}}>
                 {note.txt}
               </span>)}

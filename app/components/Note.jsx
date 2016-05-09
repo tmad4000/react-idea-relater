@@ -1,5 +1,6 @@
 import React from 'react'
 import AddRelatedForm from './AddRelatedForm'
+import { encodeHtmlEntity } from '../utils'
 
 export default class Note extends React.Component {
   constructor(props) {
@@ -37,7 +38,7 @@ export default class Note extends React.Component {
 
     let todoDiv;
     if(!this.state.editing) {
-      todoDiv = <span onClick={this.edit} dangerouslySetInnerHTML= {{__html:htmlTxt}}>
+      todoDiv = <span onClick={this.edit} dangerouslySetInnerHTML= {{__html:(htmlTxt)}}>
 
       </span>
     }

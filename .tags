@@ -1,2 +1,3 @@
 const.app	/Users/jacobcole/code/shadi-jacob-todos-react/webpack.config.js	/^const PATHS = {$/;"	property	line:9
 const.entry	/Users/jacobcole/code/shadi-jacob-todos-react/webpack.config.js	/^const entryOutput = {$/;"	property	line:17
+const	/Users/jacobcole/code/react-idea-relater/app/utils.js	/^const encodeHtmlEntity = function(str) {$/;"	function	line:0
