@@ -54,7 +54,18 @@ export default class AddRelatedForm extends React.Component {
       this.setState({filter:''})
     }
 
+    renderRaw() {
+      const { relatedNotes } = this.props;
+      return <span style={{ marginLeft: "150px" }}>
+        {relatedNotes.map( ({broken, note, relation}) =>
+          <span key={"relatedNote" + relation.id} style={{border:"1px solid lightgray", margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px", color:"maroon"}}>
+            {"<>"} {relation.userInputText}
+          </span>)}
+      </span>
+    }
+
     render() {
+      if(this.props.rawRelations == true) return this.renderRaw();
       const {note, allNotes, relatedNotes} = this.props;
 
       return (
@@ -118,6 +129,7 @@ export default class AddRelatedForm extends React.Component {
 
 AddRelatedForm.propTypes = {
   allNotes: React.PropTypes.array.isRequired,
+  rawRelations: React.PropTypes.bool.isRequired,
   relatedNotes: React.PropTypes.array.isRequired,
   relateToCurrentIdea: React.PropTypes.func.isRequired,
   addNote: React.PropTypes.func.isRequired,

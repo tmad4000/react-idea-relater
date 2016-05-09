@@ -56,6 +56,7 @@ export default class Note extends React.Component {
     {todoDiv}
     <AddRelatedForm
       note={this.props.note}
+      rawRelations={this.props.rawRelations}
       relatedNotes={this.props.relatedNotes}
       relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
       addNote={this.props.addNote}
@@ -68,6 +69,7 @@ export default class Note extends React.Component {
 Note.propTypes = {
 
   note: React.PropTypes.object.isRequired,
+  rawRelations: React.PropTypes.bool.isRequired,
   relatedNotes: React.PropTypes.array.isRequired,
   onEdit: React.PropTypes.func.isRequired,
   allNotes: React.PropTypes.array.isRequired,

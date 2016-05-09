@@ -17,6 +17,7 @@ export default class Notes extends React.Component {
                                   allNotes={this.props.allNotes}
                                   addRelation={this.props.addRelation}
                                   addNote={this.props.addNote}
+                                  rawRelations={this.props.rawRelations}
                                   relatedNotes={
                                     this.props.relations.filter(
                                       (relation) => note.id === relation.sourceId
@@ -51,5 +52,6 @@ Notes.propTypes = {
   addNote: React.PropTypes.func.isRequired,
   filteredNotes: React.PropTypes.array.isRequired,
   allNotes: React.PropTypes.array.isRequired,
-  relations: React.PropTypes.array.isRequired
+  relations: React.PropTypes.array.isRequired,
+  rawRelations: React.PropTypes.bool.isRequired
 };

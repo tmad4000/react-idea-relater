@@ -10,8 +10,7 @@ export default class App extends React.Component {
     super(props)
     this.state={
              filter: '',
-
-
+             rawRelations: false,
              notes : [
               {
                 id: '0',
@@ -207,6 +206,7 @@ export default class App extends React.Component {
 
 
         <button onClick={() => this.addNote()}>+</button>
+        <button onClick={() => this.setState({ rawRelations: !this.state.rawRelations })}>raw/complex relations</button>
 
         <Notes
           addRelation={this.addRelation}
@@ -215,6 +215,7 @@ export default class App extends React.Component {
           allNotes={this.state.notes}
           filteredNotes={filterEntries(this.state.notes, this.state.filter)}
           relations={relations}
+          rawRelations={this.state.rawRelations}
         />
 
         <br />
