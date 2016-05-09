@@ -6,7 +6,7 @@ export default class Notes extends React.Component {
     render() {
 
         return (
-            <ul style={{overflow:"scroll",height:"100px"}}>
+            <ul style={{overflow:"scroll",height:"500px"}} >
                 {
                     this.props.filteredNotes.map(
                         note =>
@@ -21,7 +21,13 @@ export default class Notes extends React.Component {
                                     this.props.relations.filter(
                                       (relation) => note.id === relation.sourceId
                                     )
-                                    .map( (relation) => this.props.allNotes.find( (n) => n.id === relation.targetId ))
+                                    .map((relation) => {
+                                      return {
+                                        broken: relation.broken,
+                                        note: !relation.broken ? this.props.allNotes.find((n) => n.id === relation.targetId) : undefined,
+                                        relation
+                                      }
+                                    })
                                   }
 
                                   />

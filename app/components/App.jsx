@@ -1,6 +1,5 @@
 import React from 'react'
 import Notes from './Notes.jsx'
-import AddRelatedForm from './AddRelatedForm.jsx'
 import uuid from 'node-uuid'
 
 import { encodeHtmlEntity, filterEntries } from './utils.js'
@@ -15,16 +14,19 @@ export default class App extends React.Component {
 
              notes : [
               {
-                id: uuid.v4(),
-                txt: 'Learn Webpack <b> dfdf </b>'
+                id: '0',
+                txt: 'Learn Webpack <b> dfdf </b>',
+                userInputText: 'Learn Webpack <b> dfdf </b>'
               },
               {
-                id: uuid.v4(),
-                txt: 'Learn React'
+                id: '1',
+                txt: 'Learn React',
+                userInputText: 'Learn React'
               },
               {
-                id: uuid.v4(),
-                txt: 'Do laundry'
+                id: '2',
+                txt: 'Do laundry',
+                userInputText: 'Do laundry'
               }
             ],
             relations : [
@@ -104,32 +106,68 @@ export default class App extends React.Component {
     return id;
   }
 
-
-
-
-  parseNotesFromText = (txt) => {
-    return txt.split("\n\n").map( (noteTxt, i) => {
-      return {
-        id: ''+ i,
-        txt: noteTxt
-      }
-    })
-  }
-
-  // parseNotesFromText = (text) => {
-  //   return txt.toLowerCase().split("\n\n").map( (noteTxt) => {
-  //     const relations = noteTxt.split("<>")
-  //     const note = splitNote.shift()
-  //
-  //     if ( splitNote.length > 1) {
-  //
-  //     }
+  // parseNotesFromText = (txt) => {
+  //   return txt.split("\n\n").map( (noteTxt, i) => {
   //     return {
-  //       id: uuid.v4(),
+  //       id: ''+ i,
   //       txt: noteTxt
   //     }
   //   })
   // }
+  //
+  parseNotesFromText = (txt) => {
+    const {notes, relations} = txt.split("\n\n")
+      .map(this.parseOneNoteFromText)
+      .reduce((aggregate, {notes,relations}) => ({
+        notes: aggregate.notes.concat(notes),
+        relations: aggregate.relations.concat(relations)
+      }), {notes: [], relations: []})
+    this.setState({notes, relations});
+  }
+
+  parseOneNoteFromText = (noteTxt,i) => {
+    let relations = noteTxt.split("<>")
+    const noteText = relations.shift()
+
+    if (relations.length > 0) {
+      relations = relations
+        .map((relation) => relation.trim())
+        .map((relation,j) => {
+          const targetIdea = this.state.notes
+            .find(note => note.id != i && note.txt.toLowerCase().indexOf(relation.toLowerCase()) != -1)
+          return [{
+            id: i + '-'+ (2*j),
+            mirrorRelationId: i + '-'+ (2*j+1),
+            userInputText: relation,
+            sourceId: i + '',
+            targetId: targetIdea ? targetIdea.id : null,
+            broken: targetIdea ? false : true,
+          }, {
+            id: i + '-' + (2*j+1),
+            mirrorRelationId: i + '-'+ (2*j),
+            userInputText: relation,
+            sourceId: targetIdea ? targetIdea.id : null,
+            targetId: i + '',
+            broken: targetIdea ? false : true,
+          }];
+        })
+        .reduce((array, subArray) => array.concat(subArray), [])
+
+      this.setState({
+        relations: relations,
+      })
+    }
+    const note = {
+      id: i + '',
+      txt: noteText,
+      userInputText: noteTxt,
+    }
+
+    return {
+      notes: [note],
+      relations,
+    }
+  }
 
 
 
@@ -146,16 +184,11 @@ export default class App extends React.Component {
     return (
       <div>
         <br />
-        {/*<AddRelatedForm
-          note={null}
-          relatedNotes={[]}
-          relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
-          allNotes={notes} />*/}
 
-<div>
-        <label htmlFor="tags">Search Tags/Keywords:
-        <br />
-  </label>
+
+        <div>
+          <label htmlFor="tags">Search Tags/Keywords:<br />
+          </label>
 
   <input
               type="text"
@@ -181,25 +214,37 @@ export default class App extends React.Component {
           onEdit={this.editNote}
           allNotes={this.state.notes}
           filteredNotes={filterEntries(this.state.notes, this.state.filter)}
-          relations={relations}        />
-        {/*<pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>*/}
-<br />
-<br />
-{/*<div id="tags">
-asdf
-</div>*/}
+          relations={relations}
+        />
 
-To export letterspace docs:
-  <pre>
-    cd /Users/jacob/Library/Containers/com.x10studio.LetterspaceMac/Data/Documents/Home
-    cat $(ls -t) > allLetterSpaceNotes.backup.txt
-  </pre>
+        <br />
+        <br />
+
+        To export letterspace docs:
+        <pre>
+          cd /Users/jacob/Library/Containers/com.x10studio.LetterspaceMac/Data/Documents/Home
+          cat $(ls -t) > allLetterSpaceNotes.backup.txt
+        </pre>
+        {/*<pre>
+          {JSON.stringify(this.state.relations,null,'\t')}
+        </pre>*/}
 
 
-        <textarea cols="150" rows="30" id="log" tabIndex="1"
-          onChange={ (e) => this.setState({notes: this.parseNotesFromText(e.target.value)}) }
-          value = { this.state.notes.map( (note) => note.txt).join("\n\n") }
-></textarea>
+        <textarea
+          cols="150"
+          rows="10"
+          tabIndex="1"
+          onChange={ (e) => this.parseNotesFromText(e.target.value) }
+          value = { this.state.notes.map( (note) => note.userInputText).join("\n\n") }
+        />
+{/*
+        <div
+          contentEditable
+          style={{width:'100%', height: '300px', backgroundColor: 'white', border: '1px solid black'}}
+          tabIndex="1"
+          onChange={ (e) => this.parseNotesFromText(e.target.value) }
+          value = { this.state.notes.map( (note) => note.userInputText).join("\n\n") }
+        />*/}
 
       </div>
     )

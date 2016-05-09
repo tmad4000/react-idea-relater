@@ -55,7 +55,6 @@ export default class AddRelatedForm extends React.Component {
     }
 
     render() {
-      // return <span></span>
       const {note, allNotes, relatedNotes} = this.props;
 
       return (
@@ -106,9 +105,9 @@ export default class AddRelatedForm extends React.Component {
 
           {/* output related notes list */ }
           <span style={{ marginLeft: "150px" }}>
-            {relatedNotes.map( (note) =>
-              <span key={"relatedNote" + note.id} style={{border:"1px solid lightgray", margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px", color:"maroon"}}>
-                {note.txt}
+            {relatedNotes.map( ({broken, note, relation}) =>
+              <span key={"relatedNote" + relation.id} style={{border:"1px solid lightgray", margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px", color:"maroon"}}>
+                {!broken ? note.txt : 'broken: ' + relation.userInputText}
               </span>)}
           </span>
         </span>
