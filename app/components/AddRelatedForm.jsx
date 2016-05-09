@@ -22,21 +22,22 @@ export default class AddRelatedForm extends React.Component {
       setTimeout(()=>this.refs.addRelated.focus(),10); //#hack
     }
 
+
     //#question should i make this a pure function of props?
-    filteredSuggestions = (query) => {
+    filteredSuggestions = () => {
       const {note, allNotes, relatedNotes} = this.props;
 
       let suggestions = allNotes
         .filter( (currNote) => note && currNote.id !== note.id  &&  ( relatedNotes.map( (n) => n.id ).indexOf(currNote.id) === -1 ) );
 
       
-      const filter = query.toLowerCase();
+      const pdFilter = this.state.filter.toLowerCase();
 
-      if(filter.length > 0) {
+      if(pdFilter.length > 0) {
         suggestions=suggestions
-          .filter( (currNote) => currNote.txt.toLowerCase().indexOf(filter) !== -1)
+          .filter( (currNote) => currNote.txt.toLowerCase().indexOf(pdFilter) !== -1)
           .map( (currNote) => {
-            const r = new RegExp("("+filter+")","ig")
+            const r = new RegExp("("+pdFilter+")","ig")
             return Object.assign({}, currNote, {txt:currNote.txt.replace(r, '<span style="font-weight:bold;background-color: yellow"}>$1</span>')});
           });
       }
@@ -57,7 +58,6 @@ export default class AddRelatedForm extends React.Component {
     render() {
 
       const {note, allNotes, relatedNotes} = this.props;
-      const filterText = this.refs.addRelated ? this.refs.addRelated.value : "";
 
       return (
         <span style={{position:"relative", margin:"0 40px", }}>
@@ -92,10 +92,10 @@ export default class AddRelatedForm extends React.Component {
                 })}
                 <li
                   className="suggestion"
-                  onMouseDown={() => this.createAndRelate(filterText)}                
+                  onMouseDown={() => this.createAndRelate(this.state.filter)}                
                 >
-                  {filterText.length>0 ? 
-                    <span><span style={{color:"gray"}}>+ add &quot;</span>{filterText}<span style={{color:"gray"}}>&quot; as new idea and relate </span></span>
+                  {this.state.filter.length>0 ? 
+                    <span><span style={{color:"gray"}}>+ add &quot;</span>{this.state.filter}<span style={{color:"gray"}}>&quot; as new idea and relate </span></span>
                     : ''  }
                 </li>
             </ul>

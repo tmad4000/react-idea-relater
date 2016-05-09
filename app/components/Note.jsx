@@ -33,12 +33,12 @@ export default class Note extends React.Component {
 
 
   render() {
-    const {id, txt} = this.props.note
+    const {id, txt, htmlTxt} = this.props.note
 
     let todoDiv;
     if(!this.state.editing) {
-      todoDiv = <span onClick={this.edit} >{txt}
-       &nbsp;
+      todoDiv = <span onClick={this.edit} dangerouslySetInnerHTML= {{__html:htmlTxt}}>
+
       </span>
     }
     else {

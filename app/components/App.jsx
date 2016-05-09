@@ -102,6 +102,29 @@ export default class App extends React.Component {
     return id;
   }
 
+  filteredNotes = () => {
+    const {notes, filter} = this.state;
+    const pdFilter = filter.toLowerCase();
+
+    let fNotes = notes.filter( (currNote) => currNote.txt.toLowerCase().indexOf(pdFilter) !== -1)
+    
+    fNotes=fNotes.map( (currNote) => {
+        let hTxt=currNote.txt;
+        if(pdFilter.length > 0) {
+              const r = new RegExp("("+pdFilter+")","ig")
+              hTxt = currNote.txt.replace(r, '<span style="font-weight:bold;background-color: yellow"}>$1</span>')
+        }
+
+        return Object.assign({}, currNote, {htmlTxt:hTxt});
+    });
+    
+
+    return fNotes
+
+  }
+
+
+
 
   render() {
     const {notes, relations} = this.state;
@@ -126,32 +149,22 @@ export default class App extends React.Component {
         <label htmlFor="tags">Search Tags/Keywords: 
         <br />
   </label>
-   <input type="text" placeholder="Search Tags/Keywords: "
-            onChange={ (e) => this.setState({filter: e.target.value.toLowerCase()})}
+
+  <input
+              type="text"
+              placeholder="Search Tags/Keywords: "
+            onChange={ (e) => this.setState({filter: e.target.value})}
             ref="filter" tabIndex="2" size="150" />
 
 
+
   <button id="clear">Clear</button>
-        <textarea cols="150" rows="30" id="log" tabIndex="1"></textarea>
 </div>
         <br />
         <br />
 
-<div id="tags">
-asdf
-</div>
-
-<br />
-<br />
-To export letterspace docs:
-  <pre>
-    cd /Users/jacob/Library/Containers/com.x10studio.LetterspaceMac/Data/Documents/Home
-    cat $(ls -t) > allLetterSpaceNotes.backup.txt
-  </pre>
 
 
-<br />
-<br />
 
         <button onClick={() => this.addNote()}>+</button>
 
@@ -159,10 +172,24 @@ To export letterspace docs:
           addRelation={this.addRelation}
           addNote={this.addNote}
           onEdit={this.editNote}
-          notes={notes}
-          relations={relations}
-        />
+          notes={this.filteredNotes()}
+          relations={relations}        />
         <pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>
+<br />
+<br />
+<div id="tags">
+asdf
+</div>
+
+To export letterspace docs:
+  <pre>
+    cd /Users/jacob/Library/Containers/com.x10studio.LetterspaceMac/Data/Documents/Home
+    cat $(ls -t) > allLetterSpaceNotes.backup.txt
+  </pre>
+
+
+        <textarea cols="150" rows="30" id="log" tabIndex="1"></textarea>
+
       </div>
     )
 
