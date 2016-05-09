@@ -1,5 +1,5 @@
 import React from 'react'
-import { encodeHtmlEntity } from '../utils'
+import { encodeHtmlEntity, filterEntries } from './utils.js'
 
 
 export default class AddRelatedForm extends React.Component {
@@ -27,22 +27,19 @@ export default class AddRelatedForm extends React.Component {
 
     //#question should i make this a pure function of props?
     filteredSuggestions = () => {
+      if(!this.state.suggestingRelations) return [];
+
       const {note, allNotes, relatedNotes} = this.props;
 
-      let suggestions = allNotes
-        .filter( (currNote) => note && currNote.id !== note.id  &&  ( relatedNotes.map( (n) => n.id ).indexOf(currNote.id) === -1 ) );
 
+      let suggestions = allNotes.filter( (currNote) =>
+        true
+          && note
+          && currNote.id !== note.id
+          && !relatedNotes.find(n => n.id === currNote.id)
+      )
 
-      const pdFilter = this.state.filter.toLowerCase();
-
-      if(pdFilter.length > 0) {
-        suggestions=suggestions
-          .filter( (currNote) => currNote.txt.toLowerCase().indexOf(pdFilter) !== -1)
-          .map( (currNote) => {
-            const r = new RegExp("("+pdFilter+")","ig")
-            return Object.assign({}, currNote, {txt:currNote.txt.replace(r, '<span style="font-weight:bold;background-color: yellow"}>$1</span>')});
-          });
-      }
+      suggestions = filterEntries(suggestions, this.state.filter)
 
       return suggestions
 
@@ -58,7 +55,7 @@ export default class AddRelatedForm extends React.Component {
     }
 
     render() {
-
+      // return <span></span>
       const {note, allNotes, relatedNotes} = this.props;
 
       return (
@@ -83,14 +80,13 @@ export default class AddRelatedForm extends React.Component {
             {/* add relations dropdown*/ }
             <ul style={{position:"absolute", left:"0px", top:"20px", padding:"0 3px", zIndex:999, backgroundColor:"white", width:"120px",
               display: (this.state.suggestingRelations ? "block" : "none") }}>
-
               { this.filteredSuggestions()
                 .map( (suggestion) => {
                   return <li
                       className="suggestion"
                       onMouseDown={() => this.addRelated(suggestion.id)}
                       key={suggestion.id}
-                      dangerouslySetInnerHTML= {{__html:encodeHtmlEntity(suggestion.txt)}}
+                      dangerouslySetInnerHTML= {{__html:suggestion.txt}}
                     >
                   { /* #hack */}
 

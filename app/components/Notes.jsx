@@ -6,7 +6,7 @@ export default class Notes extends React.Component {
     render() {
 
         return (
-            <ul>
+            <ul style={{overflow:"scroll",height:"100px"}}>
                 {
                     this.props.filteredNotes.map(
                         note =>

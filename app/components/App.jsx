@@ -3,6 +3,8 @@ import Notes from './Notes.jsx'
 import AddRelatedForm from './AddRelatedForm.jsx'
 import uuid from 'node-uuid'
 
+import { encodeHtmlEntity, filterEntries } from './utils.js'
+
 export default class App extends React.Component {
 
   constructor(props) {
@@ -14,7 +16,7 @@ export default class App extends React.Component {
              notes : [
               {
                 id: uuid.v4(),
-                txt: 'Learn Webpack'
+                txt: 'Learn Webpack <b> dfdf </b>'
               },
               {
                 id: uuid.v4(),
@@ -102,26 +104,8 @@ export default class App extends React.Component {
     return id;
   }
 
-  filteredNotes = () => {
-    const {notes, filter} = this.state;
-    const pdFilter = filter.toLowerCase();
-
-    let fNotes = notes.filter( (currNote) => currNote.txt.toLowerCase().indexOf(pdFilter) !== -1)
-
-    fNotes=fNotes.map( (currNote) => {
-        let hTxt=currNote.txt;
-        if(pdFilter.length > 0) {
-              const r = new RegExp("("+pdFilter+")","ig")
-              hTxt = currNote.txt.replace(r, '<span style="font-weight:bold;background-color: yellow"}>$1</span>')
-        }
-
-        return Object.assign({}, currNote, {htmlTxt:hTxt});
-    });
 
 
-    return fNotes
-
-  }
 
   parseNotesFromText = (txt) => {
     return txt.split("\n\n").map( (noteTxt, i) => {
@@ -196,9 +180,9 @@ export default class App extends React.Component {
           addNote={this.addNote}
           onEdit={this.editNote}
           allNotes={this.state.notes}
-          filteredNotes={this.filteredNotes()}
+          filteredNotes={filterEntries(this.state.notes, this.state.filter)}
           relations={relations}        />
-        <pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>
+        {/*<pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>*/}
 <br />
 <br />
 {/*<div id="tags">
