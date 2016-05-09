@@ -172,7 +172,8 @@ export default class App extends React.Component {
           addRelation={this.addRelation}
           addNote={this.addNote}
           onEdit={this.editNote}
-          notes={this.filteredNotes()}
+          allNotes={this.state.notes}
+          filteredNotes={this.filteredNotes()}
           relations={relations}        />
         <pre>{JSON.stringify(this.state.relations, null, '\t')}</pre>
 <br />
