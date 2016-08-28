@@ -17,7 +17,8 @@ export default class App extends React.Component {
             ],
             relations : [
 
-            ]
+            ],
+             playTimeoutId:null
     }
     
 
@@ -59,13 +60,33 @@ export default class App extends React.Component {
     for(let i=0;i<4;i++)
       setTimeout(() =>  this.addRelation(this.state.notes[12].id,this.state.notes[i].id ), 0)
 
+  }
 
 
+  // componentWillUpdate(nextProps,nextState) {
+  //   if(nextState.graphPlaying) {
+  //     this.playGraph();
+  //   }
+  //   else {
+  //     clearTimeout(this.state.playTimeoutId)
+  //   }
+  // }
 
+  playGraph = () => {
 
+    this.state.notes.forEach( (note) => {
+              note.x+=1;
+          })
+
+    clearTimeout(this.state.playTimeoutId)
+    this.setState({"playTimeoutId":setTimeout( () => { this.playGraph() }, 20)})
 
   }
 
+  pauseGraph = () => {
+              clearTimeout(this.state.playTimeoutId)
+              this.setState({"playTimeoutId":null})
+  }
 
   editNote = (id, value) => {
       const notes = this.state.notes.map( (note) => {
@@ -249,6 +270,17 @@ export default class App extends React.Component {
           />
         </div>
         <div style={{border:"1px solid gray"}} >
+            <button onClick={() => {
+              if(!this.state.playTimeoutId)
+                this.playGraph(); 
+              else 
+                this.pauseGraph();
+
+
+            }
+          }>
+            {this.state.playTimeoutId ? "Pause" : "Play"}
+          </button>
           <Graph
           addRelation={this.addRelation}
           addNote={this.addNote}
