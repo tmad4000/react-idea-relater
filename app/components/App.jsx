@@ -52,6 +52,18 @@ export default class App extends React.Component {
     setTimeout(() =>  this.addNote("Learn React"), 0)
     setTimeout(() =>  this.addNote("Do laundry"), 0)
 
+
+    for(let i=0;i<7;i++)
+      setTimeout(() =>  this.addRelation(this.state.notes[0].id,this.state.notes[i].id ), 0)
+
+    for(let i=0;i<4;i++)
+      setTimeout(() =>  this.addRelation(this.state.notes[12].id,this.state.notes[i].id ), 0)
+
+
+
+
+
+
   }
 
 

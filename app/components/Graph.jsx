@@ -9,7 +9,24 @@ export default class Graph extends React.Component {
         return (
           <svg  height="600" width="100%">
             <g className="links">
-              <line strokeWidth="1" x1="301.80209868487435" y1="433.2357884841053" x2="318.82676315373936" y2="394.79555522636133"></line>
+               {
+                    this.props.relations.map(
+
+                        (rel,i) => {
+                          // let x=100*(1+i/8);
+                          // let y=100*(1.5+Math.sin(i/2));
+                          const s=this.props.filteredNotes.find(note => note.id===rel.sourceId)
+                          const t=this.props.filteredNotes.find(note => note.id===rel.targetId)
+                          console.log(s,t)
+                          if(s!==undefined&&t!==undefined)
+                            return <line strokeWidth="5" x1={s.x} y1={s.y} x2={t.x} y2={t.y}></line>
+
+                        }
+                            
+                    )
+                }
+
+
             </g>
             <g className="nodes">
               <circle r="5" fill="#1f77b4" style={{"-webkit-tap-highlight-color": "rgba(0, 0, 0, 0);"}} cx="0" cy="0">
@@ -24,10 +41,10 @@ export default class Graph extends React.Component {
                     this.props.filteredNotes.map(
 
                         (note,i) => {
-                          let x=100*(1+i/8);
-                          let y=100*(1.5+Math.sin(i/2));
+                          // let x=100*(1+i/8);
+                          // let y=100*(1.5+Math.sin(i/2));
 
-                          return <Node ind={i} note={note} x={x} y={y} />
+                          return <Node key={i} note={note}   />
                         }
                             
                     )
