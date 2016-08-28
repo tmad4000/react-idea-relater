@@ -1,5 +1,7 @@
 import React from 'react'
 import Notes from './Notes.jsx'
+import Graph from './Graph.jsx'
+import Node from './Node.jsx'
 import uuid from 'node-uuid'
 
 import { encodeHtmlEntity, filterEntries } from './utils.js'
@@ -12,26 +14,12 @@ export default class App extends React.Component {
              filter: '',
              rawRelations: false,
              notes : [
-              {
-                id: '0',
-                txt: 'Learn Webpack <b> dfdf </b>',
-                userInputText: 'Learn Webpack <b> dfdf </b>'
-              },
-              {
-                id: '1',
-                txt: 'Learn React',
-                userInputText: 'Learn React'
-              },
-              {
-                id: '2',
-                txt: 'Do laundry',
-                userInputText: 'Do laundry'
-              }
             ],
             relations : [
 
             ]
     }
+    
 
     // relation:
     // {
@@ -40,6 +28,29 @@ export default class App extends React.Component {
     //   targetId: uuid.v4(),
     //   label: 'Learn Webpack'
     // }
+
+  }
+
+  componentWillMount() {
+    //#hack
+    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
+    setTimeout(() =>  this.addNote("Learn React"), 0)
+    setTimeout(() =>  this.addNote("Do laundry"), 0)
+    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
+    setTimeout(() =>  this.addNote("Learn React"), 0)
+    setTimeout(() =>  this.addNote("Do laundry"), 0)
+    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
+    setTimeout(() =>  this.addNote("Learn React"), 0)
+    setTimeout(() =>  this.addNote("Do laundry"), 0)
+    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
+    setTimeout(() =>  this.addNote("Learn React"), 0)
+    setTimeout(() =>  this.addNote("Do laundry"), 0)
+    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
+    setTimeout(() =>  this.addNote("Learn React"), 0)
+    setTimeout(() =>  this.addNote("Do laundry"), 0)
+    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
+    setTimeout(() =>  this.addNote("Learn React"), 0)
+    setTimeout(() =>  this.addNote("Do laundry"), 0)
 
   }
 
@@ -92,12 +103,17 @@ export default class App extends React.Component {
 
   addNote = (text = "New txt") => {
     const id = uuid.v4();
+
     this.setState({
       notes: this.state.notes.concat(
         [
           {
             id,
-            txt: text
+            txt: text,
+            userInputText: text,
+            x:400*Math.random(),
+            y:400*Math.random(),
+
           }
         ])
     });
@@ -182,33 +198,35 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <br />
+      <br />
 
 
-        <div>
-          <label htmlFor="tags">Search Tags/Keywords:<br />
-          </label>
+      <div>
+      <label htmlFor="tags">Search Tags/Keywords:<br />
+      </label>
 
-  <input
-              type="text"
-              placeholder="Search Tags/Keywords: "
-            onChange={ (e) => this.setState({filter: e.target.value})}
-            ref="filter" tabIndex="2" size="150" />
-
-
-
-  <button id="clear">Clear</button>
-</div>
-        <br />
-        <br />
+      <input
+      type="text"
+      placeholder="Search Tags/Keywords: "
+      onChange={ (e) => this.setState({filter: e.target.value})}
+      ref="filter" tabIndex="2" size="150" />
 
 
 
+      <button id="clear">Clear</button>
+      </div>
+      <br />
+      <br />
 
-        <button onClick={() => this.addNote()}>+</button>
-        <button onClick={() => this.setState({ rawRelations: !this.state.rawRelations })}>raw/complex relations</button>
 
-        <Notes
+
+
+      <button onClick={() => this.addNote()}>+</button>
+      <button onClick={() => this.setState({ rawRelations: !this.state.rawRelations })}>raw/complex relations</button>
+
+      <div className="flexcontainer">
+        <div style={{border:"1px solid gray"}} >
+          <Notes
           addRelation={this.addRelation}
           addNote={this.addNote}
           onEdit={this.editNote}
@@ -216,30 +234,44 @@ export default class App extends React.Component {
           filteredNotes={filterEntries(this.state.notes, this.state.filter)}
           relations={relations}
           rawRelations={this.state.rawRelations}
-        />
+          />
+        </div>
+        <div style={{border:"1px solid gray"}} >
+          <Graph
+          addRelation={this.addRelation}
+          addNote={this.addNote}
+          onEdit={this.editNote}
+          allNotes={this.state.notes}
+          filteredNotes={filterEntries(this.state.notes, this.state.filter)}
+          relations={relations}
+          rawRelations={this.state.rawRelations}
+          />
+        </div>
+      </div>
 
-        <br />
-        <br />
+      <br />
+      <br />
 
-        To export letterspace docs:
-        <pre>
-          cd /Users/jacob/Library/Containers/com.x10studio.LetterspaceMac/Data/Documents/Home
-          cat $(ls -t) > allLetterSpaceNotes.backup.txt
-        </pre>
+      To export letterspace docs:
+      <pre>
+      cd /Users/jacob/Library/Containers/com.x10studio.LetterspaceMac/Data/Documents/Home
+      cat $(ls -t) > allLetterSpaceNotes.backup.txt
+      </pre>
         {/*<pre>
           {JSON.stringify(this.state.relations,null,'\t')}
         </pre>*/}
 
 
-        <textarea
-          cols="150"
-          rows="10"
-          tabIndex="1"
-          onChange={ (e) => this.parseNotesFromText(e.target.value) }
-          value = { this.state.notes.map( (note) => note.userInputText).join("\n\n") }
+      <textarea
+        cols="150"
+        rows="10"
+        tabIndex="1"
+        onChange={ (e) => this.parseNotesFromText(e.target.value) }
+        value = { 'nothing' /*this.state.notes.map( (note) => note.userInputText).join("\n\n")*/ }
         />
-{/*
-        <div
+
+        {/*
+          <div
           contentEditable
           style={{width:'100%', height: '300px', backgroundColor: 'white', border: '1px solid black'}}
           tabIndex="1"

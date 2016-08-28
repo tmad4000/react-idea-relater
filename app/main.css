@@ -27,3 +27,17 @@ textarea {
 	float:right;
 	border:solid lightgray 1px;
 }
+
+
+.flexcontainer {
+   display: -webkit-flex;
+   display: flex;
+   -webkit-flex-direction: row;
+   flex-direction: row;
+}
+
+
+.flexcontainer > *  {
+    width:400px;
+   flex-grow:1;
+}
