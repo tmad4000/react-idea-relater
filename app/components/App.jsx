@@ -32,6 +32,55 @@ export default class App extends React.Component {
 
   }
 
+
+componentDidMount() {
+
+        // var svg = d3.select("svg"),
+        //     width = +svg.attr("width"),
+        //     height = +svg.attr("height");
+
+        // var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+        // var simulation = d3.forceSimulation()
+        //     .force("link", d3.forceLink().id(function(d) { return d.id; }))
+        //     .force("charge", d3.forceManyBody())
+        //     .force("center", d3.forceCenter(width / 2, height / 2));
+        // console.log(height)
+
+                
+        // function ticked() {
+        //     this.state.notes.forEach( (note) => {
+        //       note.x=1;
+        //   })
+
+
+        //     this.notes.forEach((n) => 
+        //       )
+        //   this.setState({
+
+        //   })
+        //       .attr("x1", function(d) { return d.source.x; })
+        //       .attr("y1", function(d) { return d.source.y; })
+        //       .attr("x2", function(d) { return d.target.x; })
+        //       .attr("y2", function(d) { return d.target.y; });
+
+        //   node
+        //       .attr("cx", function(d) { return d.x; })
+        //       .attr("cy", function(d) { return d.y; });
+        // }
+
+        // simulation
+        //     .nodes(graph.nodes)
+        //     .on("tick", ticked);
+
+        // simulation.force("link")
+        //     .links(graph.links);
+
+
+    }
+
+
+
   componentWillMount() {
     //#hack
     setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
@@ -269,27 +318,27 @@ export default class App extends React.Component {
           rawRelations={this.state.rawRelations}
           />
         </div>
-        <div style={{border:"1px solid gray"}} >
-            <button onClick={() => {
+        <div style={{border:"1px solid gray",position:"relative"}} >
+            <button style={{position:"absolute", top:"10px", left:"10px"}} onClick={() => {
               if(!this.state.playTimeoutId)
                 this.playGraph(); 
               else 
                 this.pauseGraph();
 
 
-            }
-          }>
-            {this.state.playTimeoutId ? "Pause" : "Play"}
-          </button>
-          <Graph
-          addRelation={this.addRelation}
-          addNote={this.addNote}
-          onEdit={this.editNote}
-          allNotes={this.state.notes}
-          filteredNotes={filterEntries(this.state.notes, this.state.filter)}
-          relations={relations}
-          rawRelations={this.state.rawRelations}
-          />
+                }
+              }>
+                {this.state.playTimeoutId ? "Pause" : "Play"}
+              </button>
+            <Graph
+              addRelation={this.addRelation}
+              addNote={this.addNote}
+              onEdit={this.editNote}
+              allNotes={this.state.notes}
+              filteredNotes={filterEntries(this.state.notes, this.state.filter)}
+              relations={relations}
+              rawRelations={this.state.rawRelations}
+            />
         </div>
       </div>
 

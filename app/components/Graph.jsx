@@ -4,10 +4,11 @@ import Node from './Node.jsx'
 
 export default class Graph extends React.Component {
 
+
     render() {
 
         return (
-          <svg  height="600" width="100%">
+          <svg style={{flex:"1 1"}}>
             <g className="links">
                {
                     this.props.relations.map(

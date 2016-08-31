@@ -37,9 +37,16 @@ textarea {
 }
 
 
-.flexcontainer > *  {
-    width:400px;
-   flex-grow:1;
+.flexcontainer > div  {
+  flex: 1 1 400px;
+  flex-grow:1;
+  display: -webkit-flex;
+  display: flex;
+
+}
+
+.flexcontainer > * >* {
+  border: 1px solid red
 }
 
 
