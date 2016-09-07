@@ -56,7 +56,7 @@ export default class AddRelatedForm extends React.Component {
 
     renderRaw() {
       const { relatedNotes } = this.props;
-      return <span style={{ marginLeft: "150px" }}>
+      return <span style={{ marginLeft: "150px", lineHeight:"21px" }}>
         {relatedNotes.map( ({broken, note, relation}) =>
           <span key={"relatedNote" + relation.id} style={{border:"1px solid lightgray", margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px", color:"maroon"}}>
             {"<>"} {relation.userInputText}
@@ -115,7 +115,7 @@ export default class AddRelatedForm extends React.Component {
           </span>
 
           {/* output related notes list */ }
-          <span style={{ marginLeft: "150px" }}>
+          <span style={{ marginLeft: "150px", lineHeight:"21px" }}>
             {relatedNotes.map( ({broken, note, relation}) =>
               <span key={"relatedNote" + relation.id} style={{border:"1px solid lightgray", margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px", color:"maroon"}}>
                 {!broken ? note.txt : 'broken: ' + relation.userInputText}
