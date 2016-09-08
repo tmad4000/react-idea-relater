@@ -50,8 +50,8 @@ componentDidMount() {
                 
         function ticked() {
             this.state.notes.forEach( (note) => {
-              note.x=1;
-          })
+                note.x=1;
+            })
 
 
           //   this.notes.forEach((n) => 

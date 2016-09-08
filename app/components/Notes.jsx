@@ -8,7 +8,7 @@ export default class Notes extends React.Component {
         return (
             <ul style={{overflow:"scroll"}} >
                 {
-                    this.props.filteredNotes.map(
+                    this.props.filteredNotes.concat().reverse().map(
                         note =>
                             <li key={note.id} style={{margin:"10px"}}>
                                 <Note
