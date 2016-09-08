@@ -35,23 +35,23 @@ export default class App extends React.Component {
 
 componentDidMount() {
 
-        var svg = d3.select("svg"),
-            width = +svg.attr("width"),
-            height = +svg.attr("height");
+        // var svg = d3.select("svg"),
+        //     width = +svg.attr("width"),
+        //     height = +svg.attr("height");
 
-        var color = d3.scaleOrdinal(d3.schemeCategory20);
+        // var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        var simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(function(d) { return d.id; }))
-            .force("charge", d3.forceManyBody())
-            .force("center", d3.forceCenter(width / 2, height / 2));
-        console.log(height)
+        // var simulation = d3.forceSimulation()
+        //     .force("link", d3.forceLink().id(function(d) { return d.id; }))
+        //     .force("charge", d3.forceManyBody())
+        //     .force("center", d3.forceCenter(width / 2, height / 2));
+        // console.log(height)
 
                 
-        function ticked() {
-            this.state.notes.forEach( (note) => {
-                note.x=1;
-            })
+        // function ticked() {
+        //     this.state.notes.forEach( (note) => {
+        //         note.x=1;
+        //     })
 
 
           //   this.notes.forEach((n) => 
@@ -67,14 +67,14 @@ componentDidMount() {
           // node
           //     .attr("cx", function(d) { return d.x; })
           //     .attr("cy", function(d) { return d.y; });
-        }
+        // }
 
-        simulation
-            .nodes(graph.nodes)
-            .on("tick", ticked);
+        // simulation
+        //     .nodes(graph.nodes)
+        //     .on("tick", ticked);
 
-        simulation.force("link")
-            .links(graph.links);
+        // simulation.force("link")
+        //     .links(graph.links);
 
 
     }
@@ -83,33 +83,40 @@ componentDidMount() {
 
   componentWillMount() {
 
-    // for(let i=0; i<100; i++){
+    let newNotes = []
+    for(let i=0; i<50; i++){
     //#hack
-    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
-    setTimeout(() =>  this.addNote("Learn React"), 0)
-    setTimeout(() =>  this.addNote("Do laundry"), 0)
-    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
-    setTimeout(() =>  this.addNote("Learn React"), 0)
-    setTimeout(() =>  this.addNote("Do laundry"), 0)
-    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
-    setTimeout(() =>  this.addNote("Learn React"), 0)
-    setTimeout(() =>  this.addNote("Do laundry"), 0)
-    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
-    setTimeout(() =>  this.addNote("Learn React"), 0)
-    setTimeout(() =>  this.addNote("Do laundry"), 0)
-    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
-    setTimeout(() =>  this.addNote("Learn React"), 0)
-    setTimeout(() =>  this.addNote("Do laundry"), 0)
-    setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
-    setTimeout(() =>  this.addNote("Learn React"), 0)
-    setTimeout(() =>  this.addNote("Do laundry"), 0)
-// }
+    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+    newNotes.push(this.createNote("Learn React"))
+    newNotes.push(this.createNote("Do laundry"))
+    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+    newNotes.push(this.createNote("Learn React"))
+    newNotes.push(this.createNote("Do laundry"))
+    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+    newNotes.push(this.createNote("Learn React"))
+    newNotes.push(this.createNote("Do laundry"))
+    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+    newNotes.push(this.createNote("Learn React"))
+    newNotes.push(this.createNote("Do laundry"))
+    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+    newNotes.push(this.createNote("Learn React"))
+    newNotes.push(this.createNote("Do laundry"))
+    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+    newNotes.push(this.createNote("Learn React"))
+    newNotes.push(this.createNote("Do laundry"))
+}
+
+
+    this.setState({
+      notes: this.state.notes.concat(newNotes) })
 
     for(let i=0;i<7;i++)
       setTimeout(() =>  this.addRelation(this.state.notes[0].id,this.state.notes[i].id ), 0)
 
     for(let i=0;i<4;i++)
       setTimeout(() =>  this.addRelation(this.state.notes[12].id,this.state.notes[i].id ), 0)
+
+
 
   }
 
@@ -129,7 +136,7 @@ componentDidMount() {
               note.x+=1;
           })
 
-    // for(var i=0; i<10000; i++){
+    // for(var i=0; i<100000; i++){
       
     //   this.state.notes.forEach( (note) => {
     //           note.x+=Math.random()*Math.sin(i);
@@ -220,6 +227,19 @@ componentDidMount() {
 
     return id;
   }
+
+  createNote = (text = "New txt") => {
+      const id = uuid.v4();
+
+      return {
+              id,
+              txt: text,
+              userInputText: text,
+              x:400*Math.random(),
+              y:400*Math.random(),
+
+            }
+    }
 
   // parseNotesFromText = (txt) => {
   //   return txt.split("\n\n").map( (noteTxt, i) => {
@@ -326,7 +346,7 @@ componentDidMount() {
 
       <div className="flexcontainer">
         <div style={{border:"1px solid gray"}} >
-          <Notes
+            {/*<Notes
           addRelation={this.addRelation}
           addNote={this.addNote}
           onEdit={this.editNote}
@@ -334,7 +354,7 @@ componentDidMount() {
           filteredNotes={filterEntries(this.state.notes, this.state.filter)}
           relations={relations}
           rawRelations={this.state.rawRelations}
-          />
+          />*/}
         </div>
         <div style={{border:"1px solid gray",position:"relative"}} >
             <div style={{position:"absolute", top:"10px", left:"10px"}} className="floating-graph-controls">
