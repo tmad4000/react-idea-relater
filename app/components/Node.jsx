@@ -30,9 +30,9 @@ export default class Node extends React.Component {
 
     const {id, txt, htmlTxt,x,y} = this.props.note
 
-    return (<circle onClick={(e) => {alert()}} r="5" title={txt} fill={txt=="New txt" ? "red" : "#1f77b4"} style={{"-webkit-tap-highlight-color": "rgba(0, 0, 0, 0);"}} 
+    return (<circle onClick={(e) => {alert()}} r="5" fill={txt=="New txt" ? "red" : "#1f77b4"} style={{"-webkit-tap-highlight-color": "rgba(0, 0, 0, 0);"}} 
         cx={x} cy={y}>
-          <title>txt</title>
+          <title>{txt}</title>
       </circle>)
 
   }
