@@ -38,3 +38,18 @@ export const filterEntries = (entries, filter) => {
   return fNotes
 
 }
+
+
+export const shallowEqualsObj = (o1, o2, excludingKeys=[]) => {
+    let ks = Object.keys(o1)
+    
+    for(let i=0;i<ks.length;i++) {
+      if(excludingKeys.includes(ks[i]))
+        continue;
+
+
+      if( (ks[i] in o2) && o2[ks[i]]!==o1[ks[i]])
+        return false;
+    }
+    return true
+  }

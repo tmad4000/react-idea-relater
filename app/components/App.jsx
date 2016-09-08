@@ -84,7 +84,7 @@ componentDidMount() {
   componentWillMount() {
 
     let newNotes = []
-    for(let i=0; i<50; i++){
+    for(let i=0; i<1; i++){
     //#hack
     newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
     newNotes.push(this.createNote("Learn React"))
@@ -346,7 +346,8 @@ componentDidMount() {
 
       <div className="flexcontainer">
         <div style={{border:"1px solid gray"}} >
-            {/*<Notes
+
+            <Notes
           addRelation={this.addRelation}
           addNote={this.addNote}
           onEdit={this.editNote}
@@ -354,7 +355,7 @@ componentDidMount() {
           filteredNotes={filterEntries(this.state.notes, this.state.filter)}
           relations={relations}
           rawRelations={this.state.rawRelations}
-          />*/}
+          />
         </div>
         <div style={{border:"1px solid gray",position:"relative"}} >
             <div style={{position:"absolute", top:"10px", left:"10px"}} className="floating-graph-controls">
