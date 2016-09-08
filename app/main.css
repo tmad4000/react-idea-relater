@@ -46,7 +46,7 @@ textarea {
 }
 
 .flexcontainer > * >* {
-  border: 1px solid red
+  /*  border: 1px solid red*/
 }
 
 
@@ -58,4 +58,18 @@ textarea {
 .nodes circle {
   stroke: #fff;
   stroke-width: 1.5px;
+}
+
+.floating-graph-controls > * {
+  margin-right: 5px;
+  padding: 2px;
+  display: inline-block;
+}
+
+.floating-graph-controls > span {
+  background-color: lightGray;
+
+  margin-right: 5px;
+  padding: 2px;
+  display: inline-block;
 }

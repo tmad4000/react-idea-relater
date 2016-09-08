@@ -82,6 +82,8 @@ componentDidMount() {
 
 
   componentWillMount() {
+
+    // for(let i=0; i<100; i++){
     //#hack
     setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
     setTimeout(() =>  this.addNote("Learn React"), 0)
@@ -101,7 +103,7 @@ componentDidMount() {
     setTimeout(() =>  this.addNote("Learn Webpack <b> dfdf </b>"), 0)
     setTimeout(() =>  this.addNote("Learn React"), 0)
     setTimeout(() =>  this.addNote("Do laundry"), 0)
-
+// }
 
     for(let i=0;i<7;i++)
       setTimeout(() =>  this.addRelation(this.state.notes[0].id,this.state.notes[i].id ), 0)
@@ -127,8 +129,24 @@ componentDidMount() {
               note.x+=1;
           })
 
+    // for(var i=0; i<10000; i++){
+      
+    //   this.state.notes.forEach( (note) => {
+    //           note.x+=Math.random()*Math.sin(i);
+    //       })
+    // }
+
+
+
     clearTimeout(this.state.playTimeoutId)
-    this.setState({"playTimeoutId":setTimeout( () => { this.playGraph() }, 20)})
+    this.setState({"playTimeoutId":setTimeout( () => {
+     
+     this.playGraph() 
+ 
+    const t = Date.now()
+     this.setState({"lastFrameTimeDiffMS": t-this.state.lastFrameTimeMS, "lastFrameTimeMS": t})  
+
+   }, 20)})
 
   }
 
@@ -284,7 +302,7 @@ componentDidMount() {
 
 
       <div>
-      <label htmlFor="tags">Search Tags/Keywords:<br />
+      <label >Search Tags/Keywords:<br />
       </label>
 
       <input
@@ -319,17 +337,23 @@ componentDidMount() {
           />
         </div>
         <div style={{border:"1px solid gray",position:"relative"}} >
-            <button style={{position:"absolute", top:"10px", left:"10px"}} onClick={() => {
-              if(!this.state.playTimeoutId)
-                this.playGraph(); 
-              else 
-                this.pauseGraph();
+            <div style={{position:"absolute", top:"10px", left:"10px"}} className="floating-graph-controls">
+              <button onClick={() => {
+                if(!this.state.playTimeoutId)
+                  this.playGraph(); 
+                else 
+                  this.pauseGraph();
 
 
-                }
-              }>
-                {this.state.playTimeoutId ? "Pause" : "Play"}
-              </button>
+                  }
+                }>
+                  {this.state.playTimeoutId ? "Pause" : "Play"}
+                </button>
+                
+                <span> {(1000/this.state.lastFrameTimeDiffMS).toFixed(3) } FPS </span>
+                <span> nodes: {this.state.notes.length}, edges: {this.state.relations.length} </span>
+
+              </div>
             <Graph
               addRelation={this.addRelation}
               addNote={this.addNote}
