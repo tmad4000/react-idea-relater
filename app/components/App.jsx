@@ -78,6 +78,127 @@ componentDidMount() {
         // simulation.force("link")
         //     .links(graph.links);
 
+        var svg = d3.select("svg#pure-d3"),
+            width = +svg.attr("width"),
+            height = +svg.attr("height");
+
+        var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+        var simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(function(d) { return d.id; }))
+            .force("charge", d3.forceManyBody())
+            .force("center", d3.forceCenter(width / 2, height / 2));
+
+
+
+        d3.json("miserables.json", function(error, graph) {
+          if (error) throw error;
+
+          for(var i=0;i<4;i++)
+            graph.nodes = graph.nodes.concat(
+              graph.nodes.map((n,j) => { return {"id": "aaa" + i+""+j, "group": 3} }
+                )
+              )
+
+          graph.nodes.forEach( (n,i) => {
+                for(var j=0;j<1;j++)
+                  if(Math.pow((i+j),17) % 7 <= 1 ) graph.links.push(
+                    {"source": n.id, 
+                     "target":graph.nodes[ Math.pow((i+j),17) % graph.nodes.length] , "value": 1}
+                     )
+                }
+            )
+
+          d3.select("#num-nodes").html(graph.nodes.length)
+          d3.select("#num-links").html(graph.links.length)
+          console.log(graph.nodes.length, " nodes")
+
+          var link = svg.append("g")
+              .attr("class", "links")
+            .selectAll("line")
+            .data(graph.links)
+            .enter().append("line")
+
+
+          var node = svg.append("g")
+              .attr("class", "nodes")
+            .selectAll("circle")
+            .data(graph.nodes)
+            .enter().append("circle")
+              .attr("r", 5)
+              .attr("fill", function(d) { return color(d.group); })
+              .call(d3.drag()
+                  .on("start", dragstarted)
+                  .on("drag", dragged)
+                  .on("end", dragended));
+              
+          node.append("title")
+              .text(function(d) { return d.id; });
+
+          simulation
+              .nodes(graph.nodes)
+              .on("tick", ticked);
+
+          simulation.force("link")
+              .links(graph.links);
+
+          
+          let lastFrameTimeDiffMS = 0;
+          let lastFrameTimeMS = 0;
+          function ticked() {
+            
+            const t = Date.now()
+            
+            lastFrameTimeDiffMS = t-lastFrameTimeMS
+            lastFrameTimeMS = t
+            d3.select("#fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
+
+
+            svg.selectAll("line")
+                .attr("x1", function(d) { return d.source.x; })
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })
+                .attr("y2", function(d) { return d.target.y; });
+
+            svg.selectAll("circle")
+                .attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; });
+          }
+
+
+        function dragstarted(d) {
+          if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+        }
+
+        function dragged(d) {
+          d.fx = d3.event.x;
+          d.fy = d3.event.y;
+        }
+
+        function dragended(d) {
+          if (!d3.event.active) simulation.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+        }
+        });
+
+        var graphStarted = true;
+        d3.select("#play-pause").on("click", 
+          () => {
+            if(graphStarted) {
+              graphStarted = false
+              d3.select("#play-pause").html("Pause")
+              return simulation.stop()
+            }
+            else {
+              graphStarted = true
+              d3.select("#play-pause").html("Play")
+              return simulation.restart()
+            }
+          })
+
 
     }
 
@@ -112,20 +233,16 @@ componentDidMount() {
     this.setState({
       notes: this.state.notes.concat(newNotes) })
    
-    for(let i=0;i<7;i++)
-      setTimeout(() =>  this.addRelation(this.state.notes[0].id,this.state.notes[i].id ), 0)
+   
 
-    for(let i=0;i<4;i++)
-      setTimeout(() =>  this.addRelation(this.state.notes[12].id,this.state.notes[i].id ), 0)
+   setTimeout(() => {
+       for(let i=0;i<7;i++)
+        setTimeout(() =>  this.addRelation(this.state.notes[0].id,this.state.notes[i].id ), 0)
 
+       for(let i=0;i<4;i++)
+        setTimeout(() =>  this.addRelation(this.state.notes[12].id,this.state.notes[i].id ), 0)
 
-   // setTimeout(() => {
-
-
-   // }
-
-
-
+     } , 0)
 
 
   }
@@ -402,7 +519,7 @@ componentDidMount() {
               </div>
 
 
-              <svg width="960" height="600"></svg>
+              <svg width="960" height="600" id="pure-d3"></svg>
         </div>
 
       </div>
