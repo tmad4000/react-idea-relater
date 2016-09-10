@@ -19,7 +19,7 @@ export default class Node extends React.Component {
       // if(!shallowEqualsObj(this.props,   nextProps))
       //   return true
 
-      if(this.props.note &&  !shallowEqualsObj(this.props.note, nextProps.note,["x","y"]))
+      if(this.props.note &&  !shallowEqualsObj(this.props.note, nextProps.note,["x","y"])) 
         return true
       else
         return false

@@ -32,6 +32,7 @@ textarea {
 .flexcontainer {
    display: -webkit-flex;
    display: flex;
+   
    -webkit-flex-direction: row;
    flex-direction: row;
 }

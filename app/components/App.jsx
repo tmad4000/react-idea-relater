@@ -3,6 +3,8 @@ import Notes from './Notes.jsx'
 import Graph from './Graph.jsx'
 import Node from './Node.jsx'
 import uuid from 'node-uuid'
+import * as d3 from "d3";
+
 
 import { encodeHtmlEntity, filterEntries } from './utils.js'
 
@@ -84,37 +86,45 @@ componentDidMount() {
   componentWillMount() {
 
     let newNotes = []
-    for(let i=0; i<100; i++){
-    //#hack
-    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-    newNotes.push(this.createNote("Learn React"))
-    newNotes.push(this.createNote("Do laundry"))
-    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-    newNotes.push(this.createNote("Learn React"))
-    newNotes.push(this.createNote("Do laundry"))
-    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-    newNotes.push(this.createNote("Learn React"))
-    newNotes.push(this.createNote("Do laundry"))
-    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-    newNotes.push(this.createNote("Learn React"))
-    newNotes.push(this.createNote("Do laundry"))
-    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-    newNotes.push(this.createNote("Learn React"))
-    newNotes.push(this.createNote("Do laundry"))
-    newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-    newNotes.push(this.createNote("Learn React"))
-    newNotes.push(this.createNote("Do laundry"))
-}
+    for(let i=0; i<1; i++){
+      //#hack
+      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+      newNotes.push(this.createNote("Learn React"))
+      newNotes.push(this.createNote("Do laundry"))
+      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+      newNotes.push(this.createNote("Learn React"))
+      newNotes.push(this.createNote("Do laundry"))
+      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+      newNotes.push(this.createNote("Learn React"))
+      newNotes.push(this.createNote("Do laundry"))
+      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+      newNotes.push(this.createNote("Learn React"))
+      newNotes.push(this.createNote("Do laundry"))
+      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+      newNotes.push(this.createNote("Learn React"))
+      newNotes.push(this.createNote("Do laundry"))
+      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
+      newNotes.push(this.createNote("Learn React"))
+      newNotes.push(this.createNote("Do laundry"))
+    }
 
 
     this.setState({
       notes: this.state.notes.concat(newNotes) })
-
+   
     for(let i=0;i<7;i++)
       setTimeout(() =>  this.addRelation(this.state.notes[0].id,this.state.notes[i].id ), 0)
 
     for(let i=0;i<4;i++)
       setTimeout(() =>  this.addRelation(this.state.notes[12].id,this.state.notes[i].id ), 0)
+
+
+   // setTimeout(() => {
+
+
+   // }
+
+
 
 
 
@@ -183,7 +193,7 @@ componentDidMount() {
       return false
     }
 
-    if( this.state.relations.filter( (rel) => rel.sourceId === sourceId && rel.targetId === targetId ).length > 0 ) {
+    if(this.state.relations.filter( (rel) => rel.sourceId === sourceId && rel.targetId === targetId ).length > 0 ) {
       console.error("relation already exists!", sourceId, targetId)
       return false
     }
@@ -340,7 +350,7 @@ componentDidMount() {
 
       <div className="flexcontainer">
         <div style={{border:"1px solid gray"}} >
-{/*
+
             <Notes
           addRelation={this.addRelation}
           addNote={this.addNote}
@@ -350,7 +360,7 @@ componentDidMount() {
           relations={relations}
           rawRelations={this.state.rawRelations}
           />
-        */}
+   
         </div>
         <div style={{border:"1px solid gray",position:"relative"}} >
             <div style={{position:"absolute", top:"10px", left:"10px"}} className="floating-graph-controls">
@@ -380,6 +390,21 @@ componentDidMount() {
               rawRelations={this.state.rawRelations}
             />
         </div>
+        <div style={{border:"1px solid gray",position:"relative"}} >
+            <div style={{position:"absolute", top:"10px", left:"10px"}} className="floating-graph-controls">
+                <button id="play-pause">
+                      Play
+                </button>
+                
+                <span><span id="fps"></span>  FPS </span>
+                <span> nodes: <span id="num-nodes"></span>, edges: <span id="num-links"></span> </span>
+
+              </div>
+
+
+              <svg width="960" height="600"></svg>
+        </div>
+
       </div>
 
       <br />
