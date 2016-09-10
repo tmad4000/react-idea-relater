@@ -37,46 +37,7 @@ export default class App extends React.Component {
 
 componentDidMount() {
 
-        // var svg = d3.select("svg"),
-        //     width = +svg.attr("width"),
-        //     height = +svg.attr("height");
 
-        // var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-        // var simulation = d3.forceSimulation()
-        //     .force("link", d3.forceLink().id(function(d) { return d.id; }))
-        //     .force("charge", d3.forceManyBody())
-        //     .force("center", d3.forceCenter(width / 2, height / 2));
-        // console.log(height)
-
-                
-        // function ticked() {
-        //     this.state.notes.forEach( (note) => {
-        //         note.x=1;
-        //     })
-
-
-          //   this.notes.forEach((n) => 
-          //     )
-          // this.setState({
-
-          // })
-          //     .attr("x1", function(d) { return d.source.x; })
-          //     .attr("y1", function(d) { return d.source.y; })
-          //     .attr("x2", function(d) { return d.target.x; })
-          //     .attr("y2", function(d) { return d.target.y; });
-
-          // node
-          //     .attr("cx", function(d) { return d.x; })
-          //     .attr("cy", function(d) { return d.y; });
-        // }
-
-        // simulation
-        //     .nodes(graph.nodes)
-        //     .on("tick", ticked);
-
-        // simulation.force("link")
-        //     .links(graph.links);
         setTimeout(() => {
 
           var svg = d3.select("svg#pure-d3"),
@@ -114,13 +75,20 @@ componentDidMount() {
                 .attr("class", "nodes")
               .selectAll("circle")
               .data(graph.nodes)
-              .enter().append("circle")
-                .attr("r", 5)
-                .attr("fill", function(d) { return color(d.group); })
+              .enter().append("g")
                 .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
-                    .on("end", dragended));
+                    .on("end", dragended))
+              
+              node.append("circle")
+                .attr("r", 5)
+                .attr("fill", function(d) { return color(d.group); })
+
+              node.append("text")
+                .attr("dx", 7)
+                .attr("dy", ".35em")
+                .text(function(d) { return d.txt });
                 
             node.append("title")
                 .text(function(d) { return d.id; });
@@ -153,6 +121,10 @@ componentDidMount() {
               svg.selectAll("circle")
                   .attr("cx", function(d) { return d.x; })
                   .attr("cy", function(d) { return d.y; });
+
+              svg.selectAll("text")
+                  .attr("x", function(d) { return d.x; })
+                  .attr("y", function(d) { return d.y; });
             }
 
 
