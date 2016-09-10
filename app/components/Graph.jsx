@@ -16,8 +16,8 @@ export default class Graph extends React.Component {
                         (rel,i) => {
                           // let x=100*(1+i/8);
                           // let y=100*(1.5+Math.sin(i/2));
-                          const s=this.props.filteredNotes.find(note => note.id===rel.sourceId)
-                          const t=this.props.filteredNotes.find(note => note.id===rel.targetId)
+                          const s=this.props.filteredNotes.find(note => note.id===rel.source)
+                          const t=this.props.filteredNotes.find(note => note.id===rel.target)
                           if(s!==undefined&&t!==undefined)
                             return <line key={i} strokeWidth="5" x1={s.x} y1={s.y} x2={t.x} y2={t.y}></line>
 

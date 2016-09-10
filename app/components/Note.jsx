@@ -58,7 +58,7 @@ export default class Note extends React.Component {
       note={this.props.note}
       rawRelations={this.props.rawRelations}
       relatedNotes={this.props.relatedNotes}
-      relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
+      relateToCurrentIdea={ (target) => this.props.addRelation(id, target) }
       addNote={this.props.addNote}
       allNotes={this.props.allNotes}
     />

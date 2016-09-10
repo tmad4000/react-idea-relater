@@ -20,12 +20,12 @@ export default class Notes extends React.Component {
                                   rawRelations={this.props.rawRelations}
                                   relatedNotes={
                                     this.props.relations.filter(
-                                      (relation) => note.id === relation.sourceId
+                                      (relation) => note.id === relation.source
                                     )
                                     .map((relation) => {
                                       return {
                                         broken: relation.broken,
-                                        note: !relation.broken ? this.props.allNotes.find((n) => n.id === relation.targetId) : undefined,
+                                        note: !relation.broken ? this.props.allNotes.find((n) => n.id === relation.target) : undefined,
                                         relation
                                       }
                                     })

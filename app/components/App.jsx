@@ -27,8 +27,8 @@ export default class App extends React.Component {
     // relation:
     // {
     //   id: uuid.v4(),
-    //   sourceId: uuid.v4(),
-    //   targetId: uuid.v4(),
+    //   source: uuid.v4(),
+    //   target: uuid.v4(),
     //   label: 'Learn Webpack'
     // }
 
@@ -77,128 +77,118 @@ componentDidMount() {
 
         // simulation.force("link")
         //     .links(graph.links);
+        setTimeout(() => {
 
-        var svg = d3.select("svg#pure-d3"),
-            width = +svg.attr("width"),
-            height = +svg.attr("height");
+          var svg = d3.select("svg#pure-d3"),
+              width = +svg.attr("width"),
+              height = +svg.attr("height");
 
-        var color = d3.scaleOrdinal(d3.schemeCategory20);
+          var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        var simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(function(d) { return d.id; }))
-            .force("charge", d3.forceManyBody())
-            .force("center", d3.forceCenter(width / 2, height / 2));
-
-
-
-        d3.json("miserables.json", function(error, graph) {
-          if (error) throw error;
-
-          for(var i=0;i<4;i++)
-            graph.nodes = graph.nodes.concat(
-              graph.nodes.map((n,j) => { return {"id": "aaa" + i+""+j, "group": 3} }
-                )
-              )
-
-          graph.nodes.forEach( (n,i) => {
-                for(var j=0;j<1;j++)
-                  if(Math.pow((i+j),17) % 7 <= 1 ) graph.links.push(
-                    {"source": n.id, 
-                     "target":graph.nodes[ Math.pow((i+j),17) % graph.nodes.length] , "value": 1}
-                     )
-                }
-            )
-
-          d3.select("#num-nodes").html(graph.nodes.length)
-          d3.select("#num-links").html(graph.links.length)
-          console.log(graph.nodes.length, " nodes")
-
-          var link = svg.append("g")
-              .attr("class", "links")
-            .selectAll("line")
-            .data(graph.links)
-            .enter().append("line")
+          var simulation = d3.forceSimulation()
+              .force("link", d3.forceLink().id(function(d) { return d.id; }))
+              .force("charge", d3.forceManyBody())
+              .force("center", d3.forceCenter(width / 2, height / 2));
 
 
-          var node = svg.append("g")
-              .attr("class", "nodes")
-            .selectAll("circle")
-            .data(graph.nodes)
-            .enter().append("circle")
-              .attr("r", 5)
-              .attr("fill", function(d) { return color(d.group); })
-              .call(d3.drag()
-                  .on("start", dragstarted)
-                  .on("drag", dragged)
-                  .on("end", dragended));
+            let graph = {}
+            graph.nodes = this.state.notes
+            graph.links = this.state.relations
+            // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
+
+            d3.select("#num-nodes").html(graph.nodes.length)
+            d3.select("#num-links").html(graph.links.length)
+            console.log(graph.nodes.length, " nodes", graph.links.length, " edges")
+
+
+
+
+            var link = svg.append("g")
+                .attr("class", "links")
+              .selectAll("line")
+              .data(graph.links)
+              .enter().append("line")
+
+
+            var node = svg.append("g")
+                .attr("class", "nodes")
+              .selectAll("circle")
+              .data(graph.nodes)
+              .enter().append("circle")
+                .attr("r", 5)
+                .attr("fill", function(d) { return color(d.group); })
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+                
+            node.append("title")
+                .text(function(d) { return d.id; });
+
+            simulation
+                .nodes(graph.nodes)
+                .on("tick", ticked);
+
+            simulation.force("link")
+                .links(graph.links);
+
+            
+            let lastFrameTimeDiffMS = 0;
+            let lastFrameTimeMS = 0;
+            function ticked() {
               
-          node.append("title")
-              .text(function(d) { return d.id; });
-
-          simulation
-              .nodes(graph.nodes)
-              .on("tick", ticked);
-
-          simulation.force("link")
-              .links(graph.links);
-
-          
-          let lastFrameTimeDiffMS = 0;
-          let lastFrameTimeMS = 0;
-          function ticked() {
-            
-            const t = Date.now()
-            
-            lastFrameTimeDiffMS = t-lastFrameTimeMS
-            lastFrameTimeMS = t
-            d3.select("#fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
+              const t = Date.now()
+              
+              lastFrameTimeDiffMS = t-lastFrameTimeMS
+              lastFrameTimeMS = t
+              d3.select("#fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
 
 
-            svg.selectAll("line")
-                .attr("x1", function(d) { return d.source.x; })
-                .attr("y1", function(d) { return d.source.y; })
-                .attr("x2", function(d) { return d.target.x; })
-                .attr("y2", function(d) { return d.target.y; });
+              svg.selectAll("line")
+                  .attr("x1", function(d) { return d.source.x; })
+                  .attr("y1", function(d) { return d.source.y; })
+                  .attr("x2", function(d) { return d.target.x; })
+                  .attr("y2", function(d) { return d.target.y; });
 
-            svg.selectAll("circle")
-                .attr("cx", function(d) { return d.x; })
-                .attr("cy", function(d) { return d.y; });
+              svg.selectAll("circle")
+                  .attr("cx", function(d) { return d.x; })
+                  .attr("cy", function(d) { return d.y; });
+            }
+
+
+          function dragstarted(d) {
+            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          }
+
+          function dragged(d) {
+            d.fx = d3.event.x;
+            d.fy = d3.event.y;
+          }
+
+          function dragended(d) {
+            if (!d3.event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
           }
 
 
-        function dragstarted(d) {
-          if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-          d.fx = d.x;
-          d.fy = d.y;
-        }
-
-        function dragged(d) {
-          d.fx = d3.event.x;
-          d.fy = d3.event.y;
-        }
-
-        function dragended(d) {
-          if (!d3.event.active) simulation.alphaTarget(0);
-          d.fx = null;
-          d.fy = null;
-        }
-        });
-
-        var graphStarted = true;
-        d3.select("#play-pause").on("click", 
-          () => {
-            if(graphStarted) {
-              graphStarted = false
-              d3.select("#play-pause").html("Pause")
-              return simulation.stop()
-            }
-            else {
-              graphStarted = true
-              d3.select("#play-pause").html("Play")
-              return simulation.restart()
-            }
-          })
-
+          var graphStarted = true;
+          d3.select("#play-pause").on("click", 
+            () => {
+              if(graphStarted) {
+                graphStarted = false
+                d3.select("#play-pause").html("Pause")
+                return simulation.stop()
+              }
+              else {
+                graphStarted = true
+                d3.select("#play-pause").html("Play")
+                return simulation.restart()
+              }
+            })
+        }, 1000)
 
     }
 
@@ -304,14 +294,14 @@ componentDidMount() {
       //    })
   }
 
-  addRelation = (sourceId, targetId) => {
-    if(sourceId === targetId) {
-      console.error("reflexive relation attempt!", sourceId)
+  addRelation = (source, target) => {
+    if(source === target) {
+      console.error("reflexive relation attempt!", source)
       return false
     }
 
-    if(this.state.relations.filter( (rel) => rel.sourceId === sourceId && rel.targetId === targetId ).length > 0 ) {
-      console.error("relation already exists!", sourceId, targetId)
+    if(this.state.relations.filter( (rel) => rel.source === source && rel.target === target ).length > 0 ) {
+      console.error("relation already exists!", source, target)
       return false
     }
 
@@ -320,14 +310,14 @@ componentDidMount() {
       relations: this.state.relations.concat(
         [{
           id: uuid.v4(),
-          sourceId: sourceId,
-          targetId: targetId,
+          source: source,
+          target: target,
           label: ''
         },
         {
           id: uuid.v4(),
-          sourceId: targetId,
-          targetId: sourceId,
+          source: target,
+          target: source,
           label: ''
         }]
       )
@@ -358,7 +348,6 @@ componentDidMount() {
               userInputText: text,
               x:400*Math.random(),
               y:400*Math.random(),
-
             }
     }
 
@@ -389,22 +378,22 @@ componentDidMount() {
       relations = relations
         .map((relation) => relation.trim())
         .map((relation,j) => {
-          const targetIdea = this.state.notes
+          const targetea = this.state.notes
             .find(note => note.id != i && note.txt.toLowerCase().indexOf(relation.toLowerCase()) != -1)
           return [{
             id: i + '-'+ (2*j),
             mirrorRelationId: i + '-'+ (2*j+1),
             userInputText: relation,
-            sourceId: i + '',
-            targetId: targetIdea ? targetIdea.id : null,
-            broken: targetIdea ? false : true,
+            source: i + '',
+            target: targetea ? targetea.id : null,
+            broken: targetea ? false : true,
           }, {
             id: i + '-' + (2*j+1),
             mirrorRelationId: i + '-'+ (2*j),
             userInputText: relation,
-            sourceId: targetIdea ? targetIdea.id : null,
-            targetId: i + '',
-            broken: targetIdea ? false : true,
+            source: targetea ? targetea.id : null,
+            target: i + '',
+            broken: targetea ? false : true,
           }];
         })
         .reduce((array, subArray) => array.concat(subArray), [])

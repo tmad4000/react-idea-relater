@@ -12,8 +12,8 @@ export default class AddRelatedForm extends React.Component {
       }
     }
 
-    relateToCurrentIdea = (targetId) => {
-      this.props.relateToCurrentIdea(targetId)
+    relateToCurrentIdea = (target) => {
+      this.props.relateToCurrentIdea(target)
     }
 
     addRelated = (id) => {
