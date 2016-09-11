@@ -40,7 +40,7 @@ componentDidMount() {
 
         setTimeout(() => {
 
-          var svg = d3.select("svg#pure-d3"),
+          var svg = d3.select("#pure-d3 svg"),
               width = +svg.attr("width"),
               height = +svg.attr("height");
 
@@ -55,10 +55,13 @@ componentDidMount() {
             let graph = {}
             graph.nodes = this.state.notes
             graph.links = this.state.relations
+
+            graph.nodes = this.state.notes.map((e) => Object.assign({},e))
+            graph.links = this.state.relations.map((e) => Object.assign({},e))
             // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
 
-            d3.select("#num-nodes").html(graph.nodes.length)
-            d3.select("#num-links").html(graph.links.length)
+            d3.select("#pure-d3 #num-nodes").html(graph.nodes.length)
+            d3.select("#pure-d3 #num-links").html(graph.links.length)
             console.log(graph.nodes.length, " nodes", graph.links.length, " edges")
 
 
@@ -66,14 +69,14 @@ componentDidMount() {
 
             var link = svg.append("g")
                 .attr("class", "links")
-              .selectAll("line")
+              .selectAll("#pure-d3 line")
               .data(graph.links)
               .enter().append("line")
 
 
             var node = svg.append("g")
                 .attr("class", "nodes")
-              .selectAll("circle")
+              .selectAll("#pure-d3 circle")
               .data(graph.nodes)
               .enter().append("g")
                 .call(d3.drag()
@@ -100,7 +103,7 @@ componentDidMount() {
             simulation.force("link")
                 .links(graph.links);
 
-            
+
             let lastFrameTimeDiffMS = 0;
             let lastFrameTimeMS = 0;
             function ticked() {
@@ -109,20 +112,20 @@ componentDidMount() {
               
               lastFrameTimeDiffMS = t-lastFrameTimeMS
               lastFrameTimeMS = t
-              d3.select("#fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
+              d3.select("#pure-d3 #fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
 
 
-              svg.selectAll("line")
+              svg.selectAll("#pure-d3 line")
                   .attr("x1", function(d) { return d.source.x; })
                   .attr("y1", function(d) { return d.source.y; })
                   .attr("x2", function(d) { return d.target.x; })
                   .attr("y2", function(d) { return d.target.y; });
 
-              svg.selectAll("circle")
+              svg.selectAll("#pure-d3 circle")
                   .attr("cx", function(d) { return d.x; })
                   .attr("cy", function(d) { return d.y; });
 
-              svg.selectAll("text")
+              svg.selectAll("#pure-d3 text")
                   .attr("x", function(d) { return d.x; })
                   .attr("y", function(d) { return d.y; });
             }
@@ -147,19 +150,21 @@ componentDidMount() {
 
 
           var graphStarted = true;
-          d3.select("#play-pause").on("click", 
+          d3.select("#pure-d3 #play-pause").on("click", 
             () => {
               if(graphStarted) {
                 graphStarted = false
-                d3.select("#play-pause").html("Pause")
+                d3.select("#pure-d3 #play-pause").html("Pause")
                 return simulation.stop()
               }
               else {
                 graphStarted = true
-                d3.select("#play-pause").html("Play")
+                d3.select("#pure-d3 #play-pause").html("Play")
                 return simulation.restart()
               }
             })
+
+
         }, 1000)
 
     }
@@ -468,7 +473,7 @@ componentDidMount() {
               rawRelations={this.state.rawRelations}
             />
         </div>
-        <div style={{border:"1px solid gray",position:"relative"}} >
+        <div style={{border:"1px solid gray",position:"relative"}} id="pure-d3">
             <div style={{position:"absolute", top:"10px", left:"10px"}} className="floating-graph-controls">
                 <button id="play-pause">
                       Play
@@ -480,7 +485,7 @@ componentDidMount() {
               </div>
 
 
-              <svg width="960" height="600" id="pure-d3"></svg>
+              <svg width="960" height="600"></svg>
         </div>
 
       </div>
