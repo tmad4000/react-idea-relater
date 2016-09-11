@@ -49,6 +49,7 @@ export default class Note extends React.Component {
         autoFocus={true}
         onBlur={this.finishEdit}
         onKeyPress={this.checkEnter}
+        onChange={(e) => this.props.onEdit(e.target.value)}
         defaultValue={txt} />;
     }
 
