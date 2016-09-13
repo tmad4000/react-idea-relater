@@ -8,6 +8,10 @@ export const  encodeHtmlEntity = function(str) {
 
 
 export const filterEntries = (entries, filter) => {
+
+  return entries
+  
+
   const pdFilter = filter.toLowerCase();
 
   let fNotes = entries

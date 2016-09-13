@@ -46,12 +46,12 @@ export default class Notes extends React.Component {
 }
 
 
-Notes.propTypes = {
-  onEdit: React.PropTypes.func.isRequired,
-  addRelation: React.PropTypes.func.isRequired,
-  addNote: React.PropTypes.func.isRequired,
-  filteredNotes: React.PropTypes.array.isRequired,
-  allNotes: React.PropTypes.array.isRequired,
-  relations: React.PropTypes.array.isRequired,
-  rawRelations: React.PropTypes.bool.isRequired
-};
+// Notes.propTypes = {
+//   onEdit: React.PropTypes.func.isRequired,
+//   addRelation: React.PropTypes.func.isRequired,
+//   addNote: React.PropTypes.func.isRequired,
+//   filteredNotes: React.PropTypes.array.isRequired,
+//   allNotes: React.PropTypes.array.isRequired,
+//   relations: React.PropTypes.array.isRequired,
+//   rawRelations: React.PropTypes.bool.isRequired
+// };

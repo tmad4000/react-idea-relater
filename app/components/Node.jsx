@@ -12,19 +12,19 @@ export default class Node extends React.Component {
 
   
 
-  shouldComponentUpdate(nextProps) {
+  // shouldComponentUpdate(nextProps) {
 
-      //not shallowly equal because filterEntries copies
+  //     //not shallowly equal because filterEntries copies
 
-      // if(!shallowEqualsObj(this.props,   nextProps))
-      //   return true
+  //     // if(!shallowEqualsObj(this.props,   nextProps))
+  //     //   return true
 
-      if(this.props.note &&  !shallowEqualsObj(this.props.note, nextProps.note,["x","y"])) 
-        return true
-      else
-        return false
+  //     if(this.props.note &&  !shallowEqualsObj(this.props.note, nextProps.note,["x","y"])) 
+  //       return true
+  //     else
+  //       return false
 
-  }
+  // }
 
   render() {
 

@@ -174,7 +174,7 @@ componentDidMount() {
   componentWillMount() {
 
     let newNotes = []
-    for(let i=0; i<1; i++){
+    for(let i=0; i<100; i++){
       //#hack
       newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
       newNotes.push(this.createNote("Learn React"))
@@ -322,6 +322,7 @@ componentDidMount() {
       return {
               id,
               txt: text,
+              htmlTxt: text,
               userInputText: text,
               x:400*Math.random(),
               y:400*Math.random(),

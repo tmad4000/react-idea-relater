@@ -127,11 +127,11 @@ export default class AddRelatedForm extends React.Component {
     }
 }
 
-AddRelatedForm.propTypes = {
-  allNotes: React.PropTypes.array.isRequired,
-  rawRelations: React.PropTypes.bool.isRequired,
-  relatedNotes: React.PropTypes.array.isRequired,
-  relateToCurrentIdea: React.PropTypes.func.isRequired,
-  addNote: React.PropTypes.func.isRequired,
-  note: React.PropTypes.object.isRequired
-};
+// AddRelatedForm.propTypes = {
+//   allNotes: React.PropTypes.array.isRequired,
+//   rawRelations: React.PropTypes.bool.isRequired,
+//   relatedNotes: React.PropTypes.array.isRequired,
+//   relateToCurrentIdea: React.PropTypes.func.isRequired,
+//   addNote: React.PropTypes.func.isRequired,
+//   note: React.PropTypes.object.isRequired
+// };

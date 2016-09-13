@@ -13,6 +13,8 @@ const PATHS = {
 
 process.env.BABEL_ENV = TARGET;
 
+const production_react = true
+
 
 const entryOutput = {
   entry: PATHS.app,
@@ -38,7 +40,22 @@ const entryOutput = {
         include: PATHS.app
       }
     ]
-  }
+  },
+  resolve: {
+    alias: Object.assign({},
+      (!production_react) ? {
+        'react$': 'react/dist/react.js',
+        'react-dom$': 'react-dom/dist/react-dom.js'
+      } : {},
+      (production_react) ? {
+        'react$': 'react/dist/react.min.js',
+        'react-dom$': 'react-dom/dist/react-dom.min.js'
+      } : {}
+    ),
+    extensions: ['', '.c.js', '.js', '.jsx'],
+    modules: [path.resolve(__dirname, "node_modules"), "node_modules"]
+  },
+
 
 }
 
