@@ -38,9 +38,142 @@ export default class App extends React.Component {
 componentDidMount() {
 
 
-        setTimeout(() => {
+        // setTimeout(() => {
 
-          var svg = d3.select("#pure-d3 svg"),
+        //   var svg = d3.select("#pure-d3 svg"),
+
+        //       width = +svg.attr("width"),
+        //       height = +svg.attr("height");
+
+        //   var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+        //   var simulation = d3.forceSimulation()
+        //       .force("link", d3.forceLink().id(function(d) { return d.id; }))
+        //       .force("charge", d3.forceManyBody())
+        //       .force("center", d3.forceCenter(width / 2, height / 2));
+
+
+        //     let graph = {}
+        //     graph.nodes = this.state.notes
+        //     graph.links = this.state.relations
+
+        //     graph.nodes = this.state.notes.map((e) => Object.assign({},e))
+        //     graph.links = this.state.relations.map((e) => Object.assign({},e))
+        //     // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
+
+        //     d3.select("#pure-d3 #num-nodes").html(graph.nodes.length)
+        //     d3.select("#pure-d3 #num-links").html(graph.links.length)
+        //     console.log(graph.nodes.length, " nodes", graph.links.length, " edges")
+
+
+
+
+        //     var link = svg.append("g")
+        //         .attr("class", "links")
+        //       .selectAll("#pure-d3 line")
+        //       .data(graph.links)
+        //       .enter().append("line")
+
+
+        //     var node = svg.append("g")
+        //         .attr("class", "nodes")
+        //       .selectAll("#pure-d3 circle")
+        //       .data(graph.nodes)
+        //       .enter().append("g")
+        //         .call(d3.drag()
+        //             .on("start", dragstarted)
+        //             .on("drag", dragged)
+        //             .on("end", dragended))
+              
+        //       node.append("circle")
+        //         .attr("r", 5)
+        //         .attr("fill", function(d) { return color(d.group); })
+
+        //       node.append("text")
+        //         .attr("dx", 7)
+        //         .attr("dy", ".35em")
+        //         .text(function(d) { return d.txt });
+                
+        //     node.append("title")
+        //         .text(function(d) { return d.id; });
+
+        //     simulation
+        //         .nodes(graph.nodes)
+        //         .on("tick", ticked);
+
+        //     simulation.force("link")
+        //         .links(graph.links);
+
+
+        //     let lastFrameTimeDiffMS = 0;
+        //     let lastFrameTimeMS = 0;
+        //     function ticked() {
+              
+        //       const t = Date.now()
+              
+        //       lastFrameTimeDiffMS = t-lastFrameTimeMS
+        //       lastFrameTimeMS = t
+        //       d3.select("#pure-d3 #fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
+
+
+        //       svg.selectAll("#pure-d3 line")
+        //           .attr("x1", function(d) { return d.source.x; })
+        //           .attr("y1", function(d) { return d.source.y; })
+        //           .attr("x2", function(d) { return d.target.x; })
+        //           .attr("y2", function(d) { return d.target.y; });
+
+        //       svg.selectAll("#pure-d3 circle")
+        //           .attr("cx", function(d) { return d.x; })
+        //           .attr("cy", function(d) { return d.y; });
+
+        //       svg.selectAll("#pure-d3 text")
+        //           .attr("x", function(d) { return d.x; })
+        //           .attr("y", function(d) { return d.y; });
+        //     }
+
+
+        //   function dragstarted(d) {
+        //     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        //     d.fx = d.x;
+        //     d.fy = d.y;
+        //   }
+
+        //   function dragged(d) {
+        //     d.fx = d3.event.x;
+        //     d.fy = d3.event.y;
+        //   }
+
+        //   function dragended(d) {
+        //     if (!d3.event.active) simulation.alphaTarget(0);
+        //     d.fx = null;
+        //     d.fy = null;
+        //   }
+
+
+        //   var graphStarted = true;
+        //   d3.select("#pure-d3 #play-pause").on("click", 
+        //     () => {
+        //       if(graphStarted) {
+        //         graphStarted = false
+        //         d3.select("#pure-d3 #play-pause").html("Pause")
+        //         return simulation.stop()
+        //       }
+        //       else {
+        //         graphStarted = true
+        //         d3.select("#pure-d3 #play-pause").html("Play")
+        //         return simulation.restart()
+        //       }
+        //     })
+
+
+        // }, 1000)
+
+
+
+
+        setTimeout(() => {
+console.log(this.state)
+          var svg = d3.select("#hybrid-graph svg"),
               width = +svg.attr("width"),
               height = +svg.attr("height");
 
@@ -53,15 +186,15 @@ componentDidMount() {
 
 
             let graph = {}
-            graph.nodes = this.state.notes
-            graph.links = this.state.relations
+            // graph.nodes = this.state.notes
+            // graph.links = this.state.relations
 
             graph.nodes = this.state.notes.map((e) => Object.assign({},e))
             graph.links = this.state.relations.map((e) => Object.assign({},e))
             // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
 
-            d3.select("#pure-d3 #num-nodes").html(graph.nodes.length)
-            d3.select("#pure-d3 #num-links").html(graph.links.length)
+            // d3.select("#hybrid-graph #num-nodes").html(graph.nodes.length)
+            // d3.select("#hybrid-graph #num-links").html(graph.links.length)
             console.log(graph.nodes.length, " nodes", graph.links.length, " edges")
 
 
@@ -69,20 +202,20 @@ componentDidMount() {
 
             var link = svg.append("g")
                 .attr("class", "links")
-              .selectAll("#pure-d3 line")
+              .selectAll("#hybrid-graph line")
               .data(graph.links)
-              .enter().append("line")
+              // .enter().append("line")
 
 
             var node = svg.append("g")
                 .attr("class", "nodes")
-              .selectAll("#pure-d3 circle")
+              .selectAll("#hybrid-graph circle")
               .data(graph.nodes)
-              .enter().append("g")
-                .call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended))
+              // .enter().append("g")
+              //   .call(d3.drag()
+              //       .on("start", dragstarted)
+              //       .on("drag", dragged)
+              //       .on("end", dragended))
               
               node.append("circle")
                 .attr("r", 5)
@@ -106,26 +239,35 @@ componentDidMount() {
 
             let lastFrameTimeDiffMS = 0;
             let lastFrameTimeMS = 0;
+
+
             function ticked() {
               
               const t = Date.now()
               
               lastFrameTimeDiffMS = t-lastFrameTimeMS
               lastFrameTimeMS = t
-              d3.select("#pure-d3 #fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
+              d3.select("#hybrid-graph #fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
 
 
-              svg.selectAll("#pure-d3 line")
-                  .attr("x1", function(d) { return d.source.x; })
+              svg.selectAll("#hybrid-graph line")
+                  .attr("x1", function(d) { if(!d || !d.source) {
+                                   console.log(this.state)
+                                    debugger
+
+                                  }
+
+                    return d.source.x; 
+                  })
                   .attr("y1", function(d) { return d.source.y; })
                   .attr("x2", function(d) { return d.target.x; })
                   .attr("y2", function(d) { return d.target.y; });
 
-              svg.selectAll("#pure-d3 circle")
+              svg.selectAll("#hybrid-graph circle")
                   .attr("cx", function(d) { return d.x; })
                   .attr("cy", function(d) { return d.y; });
 
-              svg.selectAll("#pure-d3 text")
+              svg.selectAll("#hybrid-graph text")
                   .attr("x", function(d) { return d.x; })
                   .attr("y", function(d) { return d.y; });
             }
@@ -150,22 +292,22 @@ componentDidMount() {
 
 
           var graphStarted = true;
-          d3.select("#pure-d3 #play-pause").on("click", 
+          d3.select("#hybrid-graph #play-pause").on("click", 
             () => {
               if(graphStarted) {
                 graphStarted = false
-                d3.select("#pure-d3 #play-pause").html("Pause")
+                d3.select("#hybrid-graph #play-pause").html("Pause")
                 return simulation.stop()
               }
               else {
                 graphStarted = true
-                d3.select("#pure-d3 #play-pause").html("Play")
+                d3.select("#hybrid-graph #play-pause").html("Play")
                 return simulation.restart()
               }
             })
 
 
-        }, 1000)
+        }, 5000)
 
     }
 
@@ -197,19 +339,25 @@ componentDidMount() {
     }
 
 
+    let newRels = []
+
+    for(let i=0;i<7;i++) {
+      const x=this.createRelations(newNotes[0].id,newNotes[i].id )
+      newRels=newRels.concat(x)
+
+    }
+
+     for(let i=0;i<4;i++)
+      newRels=newRels.concat(this.createRelations(newNotes[12].id,newNotes[i].id ))
+
+    debugger
+
     this.setState({
-      notes: this.state.notes.concat(newNotes) })
+      notes: newNotes,
+      relations: newRels
+     })
    
-   
-
-   setTimeout(() => {
-       for(let i=0;i<7;i++)
-        setTimeout(() =>  this.addRelation(this.state.notes[0].id,this.state.notes[i].id ), 0)
-
-       for(let i=0;i<4;i++)
-        setTimeout(() =>  this.addRelation(this.state.notes[12].id,this.state.notes[i].id ), 0)
-
-     } , 0)
+  
 
 
   }
@@ -271,21 +419,14 @@ componentDidMount() {
       //    })
   }
 
-  addRelation = (source, target) => {
+  createRelations = (source, target) => {
     if(source === target) {
       console.error("reflexive relation attempt!", source)
-      return false
-    }
-
-    if(this.state.relations.filter( (rel) => rel.source === source && rel.target === target ).length > 0 ) {
-      console.error("relation already exists!", source, target)
-      return false
+      return []
     }
 
 
-    this.setState({
-      relations: this.state.relations.concat(
-        [{
+    return [{
           id: uuid.v4(),
           source: source,
           target: target,
@@ -297,7 +438,20 @@ componentDidMount() {
           target: source,
           label: ''
         }]
-      )
+
+  }
+
+  addRelation = (source, target) => {
+
+    if(this.state.relations.filter( (rel) => rel.source === source && rel.target === target ).length > 0 ) {
+      console.error("relation already exists!", source, target)
+      return false
+    }
+
+    const newRels = this.createRelations(source,target)
+
+    this.setState({
+      relations: this.state.relations.concat(newRels)
     })
 
   }
@@ -445,21 +599,21 @@ componentDidMount() {
           />
    
         </div>
-        <div style={{border:"1px solid gray",position:"relative"}} >
+        <div style={{border:"1px solid gray",position:"relative"}} id="hybrid-graph">
             <div style={{position:"absolute", top:"10px", left:"10px"}} className="floating-graph-controls">
-              <button onClick={() => {
-                if(!this.state.playTimeoutId)
+              <button id="play-pause" onClick={() => {
+                /*if(!this.state.playTimeoutId)
                   this.playGraph(); 
                 else 
                   this.pauseGraph();
 
-
+*/
                   }
                 }>
                   {this.state.playTimeoutId ? "Pause" : "Play"}
                 </button>
                 
-                <span> {(1000/this.state.lastFrameTimeDiffMS).toFixed(3) } FPS </span>
+                <span> <span id="fps"></span> FPS </span>
                 <span> nodes: {this.state.notes.length}, edges: {this.state.relations.length} </span>
 
               </div>
