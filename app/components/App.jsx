@@ -55,9 +55,7 @@ componentDidMount() {
               .force("center", d3.forceCenter(width / 2, height / 2));
 
 
-            let graph = {}
-            graph.nodes = this.state.notes
-            graph.links = this.state.relations
+            const graph = {}
 
             graph.nodes = this.state.notes.map((e) => Object.assign({},e))
             graph.links = this.state.relations.map((e) => Object.assign({},e))
@@ -188,13 +186,11 @@ console.log("d3 timeout",this.state)
 
 
             let graph = {}
+
             // graph.nodes = this.state.notes
             // graph.links = this.state.relations
-
-            graph.nodes = this.state.notes
-            graph.links = this.state.relations
-            // graph.nodes = this.state.notes.map((e) => Object.assign({},e))
-            // graph.links = this.state.relations.map((e) => Object.assign({},e))
+            graph.nodes = this.state.notes.map((e) => Object.assign({},e))
+            graph.links = this.state.relations.map((e) => Object.assign({},e))
             // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
 
             // d3.select("#hybrid-graph #num-nodes").html(graph.nodes.length)
@@ -217,6 +213,11 @@ console.log("d3 timeout",this.state)
                     .on("start", dragstarted)
                     .on("drag", dragged)
                     .on("end", dragended))
+
+
+            svg.select(".nodes")
+              .selectAll("#hybrid-graph text")
+              .data(graph.nodes)
               
               
               
@@ -262,9 +263,9 @@ if(!d)
                     return (d||{x:10}).x; })
 
 
-              // svg.selectAll("#hybrid-graph text")
-              //     .attr("x", (d) => { return d.x; })
-              //     .attr("y", (d) => { return d.y; });
+              svg.selectAll("#hybrid-graph text")
+                  .attr("x", (d) => { return d.x; })
+                  .attr("y", (d) => { return d.y; });
             }
 
 
@@ -304,8 +305,10 @@ if(!d)
 
         }
 
-        runHybridGraph()
         runPureD3()
+        runHybridGraph()
+
+
         // setTimeout(runHybridGraph, 1000)
         // setTimeout(runPureD3, 1000)
 
@@ -318,7 +321,7 @@ if(!d)
   componentWillMount() {
 
     let newNotes = []
-    for(let i=0; i<300; i++){
+    for(let i=0; i<30; i++){
       newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>" + i))
       newNotes.push(this.createNote("Learn React"+i))
       newNotes.push(this.createNote("Do laundry"+i))
