@@ -8,7 +8,7 @@ export default class Graph extends React.Component {
     render() {
 
         return (
-          <svg style={{flex:"1 1"}}>
+          <svg style={{flex:"1 1"}} width="960" height="600">
             <g className="links">
                {
                     this.props.relations.map(
@@ -29,14 +29,6 @@ export default class Graph extends React.Component {
 
             </g>
             <g className="nodes">
-              <circle r="5" fill="#1f77b4" style={{"-webkit-tap-highlight-color": "rgba(0, 0, 0, 0);"}} cx="0" cy="0">
-                <title>Myriel</title>
-              </circle>
-              <circle r="5" fill="#1f77b4" style={{"-webkit-tap-highlight-color": "rgba(0, 0, 0, 0);"}} cx="100" cy="">
-                <title>Myriel</title>
-              </circle>
-
-
               {
                     this.props.filteredNotes.map(
 

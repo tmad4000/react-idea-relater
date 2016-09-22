@@ -19,7 +19,7 @@ export default class Node extends React.Component {
       // if(!shallowEqualsObj(this.props,   nextProps))
       //   return true
 
-      if(this.props.note &&  !shallowEqualsObj(this.props.note, nextProps.note,["x","y"])) 
+      if(this.props.note &&  !shallowEqualsObj(this.props.note, nextProps.note, ["x","y"])) 
         return true
       else
         return false
@@ -38,7 +38,7 @@ export default class Node extends React.Component {
     //   )
 
     return (
-      <g>
+      <g className={id}>
         <circle onClick={(e) => {alert()}} r="5" fill={txt=="New txt" ? "red" : "#1f77b4"} style={{"-webkit-tap-highlight-color": "rgba(0, 0, 0, 0);"}} 
           cx={x} cy={y}>
             <title>{txt}</title>

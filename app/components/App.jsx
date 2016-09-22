@@ -6,7 +6,7 @@ import uuid from 'node-uuid'
 import * as d3 from "d3";
 
 
-import { encodeHtmlEntity, filterEntries } from './utils.js'
+import { encodeHtmlEntity, filterEntries, seededRandom } from './utils.js'
 
 export default class App extends React.Component {
 
@@ -38,142 +38,12 @@ export default class App extends React.Component {
 componentDidMount() {
 
 
-        // setTimeout(() => {
+      
 
-        //   var svg = d3.select("#pure-d3 svg"),
+        const runPureD3 = () => {
 
-        //       width = +svg.attr("width"),
-        //       height = +svg.attr("height");
+          var svg = d3.select("#pure-d3 svg"),
 
-        //   var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-        //   var simulation = d3.forceSimulation()
-        //       .force("link", d3.forceLink().id(function(d) { return d.id; }))
-        //       .force("charge", d3.forceManyBody())
-        //       .force("center", d3.forceCenter(width / 2, height / 2));
-
-
-        //     let graph = {}
-        //     graph.nodes = this.state.notes
-        //     graph.links = this.state.relations
-
-        //     graph.nodes = this.state.notes.map((e) => Object.assign({},e))
-        //     graph.links = this.state.relations.map((e) => Object.assign({},e))
-        //     // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
-
-        //     d3.select("#pure-d3 #num-nodes").html(graph.nodes.length)
-        //     d3.select("#pure-d3 #num-links").html(graph.links.length)
-        //     console.log(graph.nodes.length, " nodes", graph.links.length, " edges")
-
-
-
-
-        //     var link = svg.append("g")
-        //         .attr("class", "links")
-        //       .selectAll("#pure-d3 line")
-        //       .data(graph.links)
-        //       .enter().append("line")
-
-
-        //     var node = svg.append("g")
-        //         .attr("class", "nodes")
-        //       .selectAll("#pure-d3 circle")
-        //       .data(graph.nodes)
-        //       .enter().append("g")
-        //         .call(d3.drag()
-        //             .on("start", dragstarted)
-        //             .on("drag", dragged)
-        //             .on("end", dragended))
-              
-        //       node.append("circle")
-        //         .attr("r", 5)
-        //         .attr("fill", function(d) { return color(d.group); })
-
-        //       node.append("text")
-        //         .attr("dx", 7)
-        //         .attr("dy", ".35em")
-        //         .text(function(d) { return d.txt });
-                
-        //     node.append("title")
-        //         .text(function(d) { return d.id; });
-
-        //     simulation
-        //         .nodes(graph.nodes)
-        //         .on("tick", ticked);
-
-        //     simulation.force("link")
-        //         .links(graph.links);
-
-
-        //     let lastFrameTimeDiffMS = 0;
-        //     let lastFrameTimeMS = 0;
-        //     function ticked() {
-              
-        //       const t = Date.now()
-              
-        //       lastFrameTimeDiffMS = t-lastFrameTimeMS
-        //       lastFrameTimeMS = t
-        //       d3.select("#pure-d3 #fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
-
-
-        //       svg.selectAll("#pure-d3 line")
-        //           .attr("x1", function(d) { return d.source.x; })
-        //           .attr("y1", function(d) { return d.source.y; })
-        //           .attr("x2", function(d) { return d.target.x; })
-        //           .attr("y2", function(d) { return d.target.y; });
-
-        //       svg.selectAll("#pure-d3 circle")
-        //           .attr("cx", function(d) { return d.x; })
-        //           .attr("cy", function(d) { return d.y; });
-
-        //       svg.selectAll("#pure-d3 text")
-        //           .attr("x", function(d) { return d.x; })
-        //           .attr("y", function(d) { return d.y; });
-        //     }
-
-
-        //   function dragstarted(d) {
-        //     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-        //     d.fx = d.x;
-        //     d.fy = d.y;
-        //   }
-
-        //   function dragged(d) {
-        //     d.fx = d3.event.x;
-        //     d.fy = d3.event.y;
-        //   }
-
-        //   function dragended(d) {
-        //     if (!d3.event.active) simulation.alphaTarget(0);
-        //     d.fx = null;
-        //     d.fy = null;
-        //   }
-
-
-        //   var graphStarted = true;
-        //   d3.select("#pure-d3 #play-pause").on("click", 
-        //     () => {
-        //       if(graphStarted) {
-        //         graphStarted = false
-        //         d3.select("#pure-d3 #play-pause").html("Pause")
-        //         return simulation.stop()
-        //       }
-        //       else {
-        //         graphStarted = true
-        //         d3.select("#pure-d3 #play-pause").html("Play")
-        //         return simulation.restart()
-        //       }
-        //     })
-
-
-        // }, 1000)
-
-
-
-
-        setTimeout(() => {
-console.log(this.state)
-          var svg = d3.select("#hybrid-graph svg"),
               width = +svg.attr("width"),
               height = +svg.attr("height");
 
@@ -186,15 +56,15 @@ console.log(this.state)
 
 
             let graph = {}
-            // graph.nodes = this.state.notes
-            // graph.links = this.state.relations
+            graph.nodes = this.state.notes
+            graph.links = this.state.relations
 
             graph.nodes = this.state.notes.map((e) => Object.assign({},e))
             graph.links = this.state.relations.map((e) => Object.assign({},e))
             // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
 
-            // d3.select("#hybrid-graph #num-nodes").html(graph.nodes.length)
-            // d3.select("#hybrid-graph #num-links").html(graph.links.length)
+            d3.select("#pure-d3 #num-nodes").html(graph.nodes.length)
+            d3.select("#pure-d3 #num-links").html(graph.links.length)
             console.log(graph.nodes.length, " nodes", graph.links.length, " edges")
 
 
@@ -202,20 +72,20 @@ console.log(this.state)
 
             var link = svg.append("g")
                 .attr("class", "links")
-              .selectAll("#hybrid-graph line")
+              .selectAll("#pure-d3 line")
               .data(graph.links)
-              // .enter().append("line")
+              .enter().append("line")
 
 
             var node = svg.append("g")
                 .attr("class", "nodes")
-              .selectAll("#hybrid-graph circle")
+              .selectAll("#pure-d3 circle")
               .data(graph.nodes)
-              // .enter().append("g")
-              //   .call(d3.drag()
-              //       .on("start", dragstarted)
-              //       .on("drag", dragged)
-              //       .on("end", dragended))
+              .enter().append("g")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended))
               
               node.append("circle")
                 .attr("r", 5)
@@ -239,6 +109,129 @@ console.log(this.state)
 
             let lastFrameTimeDiffMS = 0;
             let lastFrameTimeMS = 0;
+            function ticked() {
+              
+              const t = Date.now()
+              
+              lastFrameTimeDiffMS = t-lastFrameTimeMS
+              lastFrameTimeMS = t
+              d3.select("#pure-d3 #fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
+
+
+              svg.selectAll("#pure-d3 line")
+                  .attr("x1", function(d) { return d.source.x; })
+                  .attr("y1", function(d) { return d.source.y; })
+                  .attr("x2", function(d) { return d.target.x; })
+                  .attr("y2", function(d) { return d.target.y; });
+
+              svg.selectAll("#pure-d3 circle")
+                  .attr("cx", function(d) { return d.x; })
+                  .attr("cy", function(d) { return d.y; });
+
+              svg.selectAll("#pure-d3 text")
+                  .attr("x", function(d) { return d.x; })
+                  .attr("y", function(d) { return d.y; });
+            }
+
+
+          function dragstarted(d) {
+            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          }
+
+          function dragged(d) {
+            d.fx = d3.event.x;
+            d.fy = d3.event.y;
+          }
+
+          function dragended(d) {
+            if (!d3.event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+          }
+
+
+          var graphStarted = true;
+          d3.select("#pure-d3 #play-pause").on("click", 
+            () => {
+              if(graphStarted) {
+                graphStarted = false
+                d3.select("#pure-d3 #play-pause").html("Pause")
+                return simulation.stop()
+              }
+              else {
+                graphStarted = true
+                d3.select("#pure-d3 #play-pause").html("Play")
+                return simulation.restart()
+              }
+            })
+      }
+
+
+
+
+        const runHybridGraph = () => {
+
+console.log("d3 timeout",this.state)
+
+          var svg = d3.select("#hybrid-graph svg"),
+              width = +svg.attr("width"),
+              height = +svg.attr("height");
+
+          var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+          var simulation = d3.forceSimulation()
+              .force("link", d3.forceLink().id(function(d) { return d.id; }))
+              .force("charge", d3.forceManyBody())
+              .force("center", d3.forceCenter(width / 2, height / 2));
+
+
+            let graph = {}
+            // graph.nodes = this.state.notes
+            // graph.links = this.state.relations
+
+            graph.nodes = this.state.notes
+            graph.links = this.state.relations
+            // graph.nodes = this.state.notes.map((e) => Object.assign({},e))
+            // graph.links = this.state.relations.map((e) => Object.assign({},e))
+            // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
+
+            // d3.select("#hybrid-graph #num-nodes").html(graph.nodes.length)
+            // d3.select("#hybrid-graph #num-links").html(graph.links.length)
+            console.log(graph.nodes.length, " nodes", graph.links.length, " edges")
+
+
+
+
+            var link = svg.select(".links").data(graph.nodes)
+              .selectAll("#hybrid-graph line")
+              .data(graph.links)
+              // .enter().append("line")
+
+
+            var node = svg.select(".nodes")
+              .selectAll("#hybrid-graph circle")
+              .data(graph.nodes)
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended))
+              
+              
+              
+            const boundTicked = ticked.bind(this);
+
+            simulation
+                .nodes(graph.nodes)
+                .on("tick", boundTicked);
+
+            simulation.force("link")
+                .links(graph.links);
+
+
+            let lastFrameTimeDiffMS = 0;
+            let lastFrameTimeMS = 0;
 
 
             function ticked() {
@@ -251,25 +244,27 @@ console.log(this.state)
 
 
               svg.selectAll("#hybrid-graph line")
-                  .attr("x1", function(d) { if(!d || !d.source) {
-                                   console.log(this.state)
-                                    debugger
-
-                                  }
-
-                    return d.source.x; 
-                  })
-                  .attr("y1", function(d) { return d.source.y; })
-                  .attr("x2", function(d) { return d.target.x; })
-                  .attr("y2", function(d) { return d.target.y; });
+                  .attr("x1", (d) => { return d.source.x; })
+                  .attr("y1", (d) => { return d.source.y; })
+                  .attr("x2", (d) => { return d.target.x; })
+                  .attr("y2", (d) => { return d.target.y; });
 
               svg.selectAll("#hybrid-graph circle")
-                  .attr("cx", function(d) { return d.x; })
-                  .attr("cy", function(d) { return d.y; });
+                  .attr("cy", (d) => { 
+if(!d)
+  debugger
+                    return (d||{y:10}).y; });
 
-              svg.selectAll("#hybrid-graph text")
-                  .attr("x", function(d) { return d.x; })
-                  .attr("y", function(d) { return d.y; });
+              svg.selectAll("#hybrid-graph circle")
+                  .attr("cx", (d) => { 
+if(!d)
+  debugger
+                    return (d||{x:10}).x; })
+
+
+              // svg.selectAll("#hybrid-graph text")
+              //     .attr("x", (d) => { return d.x; })
+              //     .attr("y", (d) => { return d.y; });
             }
 
 
@@ -307,7 +302,14 @@ console.log(this.state)
             })
 
 
-        }, 5000)
+        }
+
+        runHybridGraph()
+        runPureD3()
+        // setTimeout(runHybridGraph, 1000)
+        // setTimeout(runPureD3, 1000)
+
+
 
     }
 
@@ -316,41 +318,24 @@ console.log(this.state)
   componentWillMount() {
 
     let newNotes = []
-    for(let i=0; i<1; i++){
-      //#hack
-      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-      newNotes.push(this.createNote("Learn React"))
-      newNotes.push(this.createNote("Do laundry"))
-      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-      newNotes.push(this.createNote("Learn React"))
-      newNotes.push(this.createNote("Do laundry"))
-      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-      newNotes.push(this.createNote("Learn React"))
-      newNotes.push(this.createNote("Do laundry"))
-      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-      newNotes.push(this.createNote("Learn React"))
-      newNotes.push(this.createNote("Do laundry"))
-      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-      newNotes.push(this.createNote("Learn React"))
-      newNotes.push(this.createNote("Do laundry"))
-      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>"))
-      newNotes.push(this.createNote("Learn React"))
-      newNotes.push(this.createNote("Do laundry"))
+    for(let i=0; i<300; i++){
+      newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>" + i))
+      newNotes.push(this.createNote("Learn React"+i))
+      newNotes.push(this.createNote("Do laundry"+i))
     }
 
 
     let newRels = []
 
-    for(let i=0;i<7;i++) {
-      const x=this.createRelations(newNotes[0].id,newNotes[i].id )
+    for(let i=0;i<newNotes.length;i++) {
+      const x=this.createBiRelations(newNotes[Math.floor(seededRandom(i)*newNotes.length)].id,newNotes[i].id )
       newRels=newRels.concat(x)
 
     }
 
      for(let i=0;i<4;i++)
-      newRels=newRels.concat(this.createRelations(newNotes[12].id,newNotes[i].id ))
+      newRels=newRels.concat(this.createBiRelations(newNotes[12].id,newNotes[i].id ))
 
-    debugger
 
     this.setState({
       notes: newNotes,
@@ -419,7 +404,7 @@ console.log(this.state)
       //    })
   }
 
-  createRelations = (source, target) => {
+  createBiRelations = (source, target) => {
     if(source === target) {
       console.error("reflexive relation attempt!", source)
       return []
@@ -439,6 +424,13 @@ console.log(this.state)
           label: ''
         }]
 
+    // return [{
+    //       id: uuid.v4(),
+    //       source: source,
+    //       target: target,
+    //       label: ''
+    //     }]
+
   }
 
   addRelation = (source, target) => {
@@ -448,7 +440,7 @@ console.log(this.state)
       return false
     }
 
-    const newRels = this.createRelations(source,target)
+    const newRels = this.createBiRelations(source,target)
 
     this.setState({
       relations: this.state.relations.concat(newRels)
@@ -639,7 +631,7 @@ console.log(this.state)
               </div>
 
 
-              <svg width="960" height="600"></svg>
+              <svg width="960" height="600"></svg> 
         </div>
 
       </div>

@@ -51,6 +51,17 @@ textarea {
 }
 
 
+#hybrid-graph {
+  flex: 1 1 50%;
+}
+
+
+
+svg {
+  border: 1px solid blue
+}
+
+
 .links line {
   stroke: #999;
   stroke-opacity: 0.6;
