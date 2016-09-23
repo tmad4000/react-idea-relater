@@ -27,8 +27,8 @@ export default class App extends React.Component {
     // relation:
     // {
     //   id: uuid.v4(),
-    //   source: uuid.v4(),
-    //   target: uuid.v4(),
+    //   sourceId: uuid.v4(),
+    //   targetId: uuid.v4(),
     //   label: 'Learn Webpack'
     // }
 
@@ -57,9 +57,9 @@ componentDidMount() {
 
             const graph = {}
 
-            graph.nodes = this.state.notes.map((e) => Object.assign({},e))
-            graph.links = this.state.relations.map((e) => Object.assign({},e))
-            // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
+            graph.nodes = this.state.notes.map((e) => Object.assign({source:e.sourceId},e))
+            graph.links = this.state.relations.map((e) => Object.assign({target:e.targetId},e))
+            // graph.links = this.state.relations.map((e) => Object.assign({sourceId: e.sourceId, targetId: e.targetId},e))
 
             d3.select("#pure-d3 #num-nodes").html(graph.nodes.length)
             d3.select("#pure-d3 #num-links").html(graph.links.length)
@@ -185,17 +185,22 @@ console.log("d3 timeout",this.state)
               .force("center", d3.forceCenter(width / 2, height / 2));
 
 
-            let graph = {}
+            const graph = {}
+
+            graph.nodes = this.state.notes.map((e) => Object.assign({},e))
+            graph.links = this.state.relations.map((e) => Object.assign({source:e.sourceId,target:e.targetId},e))
 
             // graph.nodes = this.state.notes
             // graph.links = this.state.relations
-            graph.nodes = this.state.notes.map((e) => Object.assign({},e))
-            graph.links = this.state.relations.map((e) => Object.assign({},e))
-            // graph.links = this.state.relations.map((e) => Object.assign({source: e.source, target: e.target},e))
+
+            // graph.nodes = this.state.notes.map((e) => Object.assign({},e))
+            // graph.links = this.state.relations.map((e) => Object.assign({},e))
+            // graph.links = this.state.relations.map((e) => Object.assign({sourceId: e.sourceId, targetId: e.targetId},e))
 
             // d3.select("#hybrid-graph #num-nodes").html(graph.nodes.length)
             // d3.select("#hybrid-graph #num-links").html(graph.links.length)
             console.log(graph.nodes.length, " nodes", graph.links.length, " edges")
+            console.log(graph.links)
 
 
 
@@ -218,6 +223,10 @@ console.log("d3 timeout",this.state)
             svg.select(".nodes")
               .selectAll("#hybrid-graph text")
               .data(graph.nodes)
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended))
               
               
               
@@ -253,19 +262,19 @@ console.log("d3 timeout",this.state)
               svg.selectAll("#hybrid-graph circle")
                   .attr("cy", (d) => { 
 if(!d)
-  debugger
+  console.log("no d, circle",d)
                     return (d||{y:10}).y; });
 
               svg.selectAll("#hybrid-graph circle")
                   .attr("cx", (d) => { 
 if(!d)
-  debugger
+  console.log("no d, circle",d)
                     return (d||{x:10}).x; })
 
 
               svg.selectAll("#hybrid-graph text")
-                  .attr("x", (d) => { return d.x; })
-                  .attr("y", (d) => { return d.y; });
+                  .attr("x", (d) => { return (d || {x:10}).x; })
+                  .attr("y", (d) => { return (d || {y:10}).y; });
             }
 
 
@@ -305,7 +314,7 @@ if(!d)
 
         }
 
-        runPureD3()
+        // runPureD3()
         runHybridGraph()
 
 
@@ -407,43 +416,43 @@ if(!d)
       //    })
   }
 
-  createBiRelations = (source, target) => {
-    if(source === target) {
-      console.error("reflexive relation attempt!", source)
+  createBiRelations = (sourceId, targetId) => {
+    if(sourceId === targetId) {
+      console.error("reflexive relation attempt!", sourceId)
       return []
     }
 
 
     return [{
           id: uuid.v4(),
-          source: source,
-          target: target,
+          sourceId: sourceId,
+          targetId: targetId,
           label: ''
         },
         {
           id: uuid.v4(),
-          source: target,
-          target: source,
+          sourceId: targetId,
+          targetId: sourceId,
           label: ''
         }]
 
     // return [{
     //       id: uuid.v4(),
-    //       source: source,
-    //       target: target,
+    //       sourceId: sourceId,
+    //       targetId: targetId,
     //       label: ''
     //     }]
 
   }
 
-  addRelation = (source, target) => {
+  addRelation = (sourceId, targetId) => {
 
-    if(this.state.relations.filter( (rel) => rel.source === source && rel.target === target ).length > 0 ) {
-      console.error("relation already exists!", source, target)
+    if(this.state.relations.filter( (rel) => rel.sourceId === sourceId && rel.targetId === targetId ).length > 0 ) {
+      console.error("relation already exists!", sourceId, targetId)
       return false
     }
 
-    const newRels = this.createBiRelations(source,target)
+    const newRels = this.createBiRelations(sourceId,targetId)
 
     this.setState({
       relations: this.state.relations.concat(newRels)
@@ -510,15 +519,15 @@ if(!d)
             id: i + '-'+ (2*j),
             mirrorRelationId: i + '-'+ (2*j+1),
             userInputText: relation,
-            source: i + '',
-            target: targetea ? targetea.id : null,
+            sourceId: i + '',
+            targetId: targetea ? targetea.id : null,
             broken: targetea ? false : true,
           }, {
             id: i + '-' + (2*j+1),
             mirrorRelationId: i + '-'+ (2*j),
             userInputText: relation,
-            source: targetea ? targetea.id : null,
-            target: i + '',
+            sourceId: targetea ? targetea.id : null,
+            targetId: i + '',
             broken: targetea ? false : true,
           }];
         })

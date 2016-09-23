@@ -40,8 +40,20 @@ export default class Node extends React.Component {
     return (
       <g className="node-g">
         <circle r="5" fill={txt=="New txt" ? "red" : "#1f77b4"} style={{"-webkit-tap-highlight-color": "rgba(0, 0, 0, 0);"}} 
-          cx={x} cy={y}>
+          cx={x} cy={y} 
+          ref={ (e) => {
+            if(!e)
+              return
+            
+            e.__data__= {} 
+            e.__data__.x=100
+            e.__data__.y=100
+              // setTimeout( () => { console.log("data",Object.getOwnPropertyNames(e)); e.__someattr__="hello" }, 3000) 
+            } 
+          }
+          >
             <title>{txt}</title>
+            
         </circle>
         <text dx="7" dy="0.3em" x={x} y={y}>{txt}</text>
       </g>

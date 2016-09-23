@@ -15,7 +15,7 @@ export default class Note extends React.Component {
   }
 
   finishEdit = (e) => {
-    const {value} = e.target;
+    const {value} = e.targetId;
 
     if (this.props.onEdit) {
       this.props.onEdit(value);
@@ -59,7 +59,7 @@ export default class Note extends React.Component {
       note={this.props.note}
       rawRelations={this.props.rawRelations}
       relatedNotes={this.props.relatedNotes}
-      relateToCurrentIdea={ (target) => this.props.addRelation(id, target) }
+      relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
       addNote={this.props.addNote}
       allNotes={this.props.allNotes}
     />
