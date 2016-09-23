@@ -42,12 +42,15 @@ export default class Node extends React.Component {
         <circle r="5" fill={txt=="New txt" ? "red" : "#1f77b4"} style={{"-webkit-tap-highlight-color": "rgba(0, 0, 0, 0);"}} 
           cx={x} cy={y} 
           ref={ (e) => {
-            if(!e)
-              return
-            
-            e.__data__= {} 
-            e.__data__.x=100
-            e.__data__.y=100
+             if(e && !("__data__" in e)) {
+              console.log("refrun")
+
+                e.__data__= {} 
+                e.__data__.x=this.props.note.x;
+                e.__data__.y=this.props.note.y;
+                e.__data__.vx=this.props.note.vx;
+                e.__data__.vy=this.props.note.vy;
+              }
               // setTimeout( () => { console.log("data",Object.getOwnPropertyNames(e)); e.__someattr__="hello" }, 3000) 
             } 
           }
@@ -55,7 +58,22 @@ export default class Node extends React.Component {
             <title>{txt}</title>
             
         </circle>
-        <text dx="7" dy="0.3em" x={x} y={y}>{txt}</text>
+        <text dx="7" dy="0.3em" x={x} y={y}
+         ref={ (e) => {
+
+            if(e && !("__data__" in e)) {
+
+              e.__data__= {} 
+              e.__data__.x=this.props.note.x;
+              e.__data__.y=this.props.note.y;
+              e.__data__.vx=this.props.note.vx;
+              e.__data__.vy=this.props.note.vy;
+            }
+              // setTimeout( () => { console.log("data",Object.getOwnPropertyNames(e)); e.__someattr__="hello" }, 3000) 
+            } 
+          }
+
+          >{txt}</text>
       </g>
       )
 

@@ -15,7 +15,7 @@ export default class Note extends React.Component {
   }
 
   finishEdit = (e) => {
-    const {value} = e.targetId;
+    const {value} = e.target;
 
     if (this.props.onEdit) {
       this.props.onEdit(value);
@@ -43,9 +43,10 @@ export default class Note extends React.Component {
     }
     else {
       todoDiv = <input type="text"
-        ref = {
+        ref = { ()=>{} /*
           (e) => e ? e.selectionStart = txt.length : null
-        }
+        */}
+
         autoFocus={true}
         onBlur={this.finishEdit}
         onKeyPress={this.checkEnter}

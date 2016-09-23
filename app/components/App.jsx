@@ -57,8 +57,8 @@ componentDidMount() {
 
             const graph = {}
 
-            graph.nodes = this.state.notes.map((e) => Object.assign({source:e.sourceId},e))
-            graph.links = this.state.relations.map((e) => Object.assign({target:e.targetId},e))
+            graph.nodes = this.state.notes.map((e) => Object.assign({},e))
+            graph.links = this.state.relations.map((e) => Object.assign({source:e.sourceId,target:e.targetId},e))
             // graph.links = this.state.relations.map((e) => Object.assign({sourceId: e.sourceId, targetId: e.targetId},e))
 
             d3.select("#pure-d3 #num-nodes").html(graph.nodes.length)
@@ -187,11 +187,16 @@ console.log("d3 timeout",this.state)
 
             const graph = {}
 
-            graph.nodes = this.state.notes.map((e) => Object.assign({},e))
-            graph.links = this.state.relations.map((e) => Object.assign({source:e.sourceId,target:e.targetId},e))
+            // graph.nodes = this.state.notes.map((e) => Object.assign({},e))
+            // graph.links = this.state.relations.map((e) => Object.assign({source:e.sourceId,target:e.targetId},e))
 
-            // graph.nodes = this.state.notes
-            // graph.links = this.state.relations
+            this.state.relations.forEach((e) => {
+                e.source=e.sourceId;
+                e.target=e.targetId;
+              })
+
+            graph.nodes = this.state.notes
+            graph.links = this.state.relations
 
             // graph.nodes = this.state.notes.map((e) => Object.assign({},e))
             // graph.links = this.state.relations.map((e) => Object.assign({},e))
@@ -204,31 +209,32 @@ console.log("d3 timeout",this.state)
 
 
 
-
-            var link = svg.select(".links").data(graph.nodes)
-              .selectAll("#hybrid-graph line")
-              .data(graph.links)
-              // .enter().append("line")
-
-
-            var node = svg.select(".nodes")
-              .selectAll("#hybrid-graph circle")
-              .data(graph.nodes)
-                .call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended))
+            this.refreshData = () => {
+              this.linkSelection = svg.select(".links")
+                .selectAll("#hybrid-graph line")
+                .data(this.state.relations)
+                // .enter().append("line")
 
 
-            svg.select(".nodes")
-              .selectAll("#hybrid-graph text")
-              .data(graph.nodes)
-                .call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended))
+              this.nodeSelection = svg.select(".nodes")
+                .selectAll("#hybrid-graph circle")
+                .data(this.state.notes)
+                  .call(d3.drag()
+                      .on("start", dragstarted)
+                      .on("drag", dragged)
+                      .on("end", dragended))
+
+
+              this.textLabelsSelection = svg.select(".nodes")
+                .selectAll("#hybrid-graph text")
+                .data(this.state.notes)
+                  .call(d3.drag()
+                      .on("start", dragstarted)
+                      .on("drag", dragged)
+                      .on("end", dragended))
+            }              
               
-              
+            this.refreshData()
               
             const boundTicked = ticked.bind(this);
 
@@ -253,26 +259,26 @@ console.log("d3 timeout",this.state)
               d3.select("#hybrid-graph #fps").html( (1000/lastFrameTimeDiffMS).toFixed(1) )
 
 
-              svg.selectAll("#hybrid-graph line")
+              this.linkSelection
                   .attr("x1", (d) => { return d.source.x; })
                   .attr("y1", (d) => { return d.source.y; })
                   .attr("x2", (d) => { return d.target.x; })
                   .attr("y2", (d) => { return d.target.y; });
 
-              svg.selectAll("#hybrid-graph circle")
+              this.nodeSelection
                   .attr("cy", (d) => { 
 if(!d)
   console.log("no d, circle",d)
                     return (d||{y:10}).y; });
 
-              svg.selectAll("#hybrid-graph circle")
+              this.nodeSelection
                   .attr("cx", (d) => { 
 if(!d)
   console.log("no d, circle",d)
                     return (d||{x:10}).x; })
 
 
-              svg.selectAll("#hybrid-graph text")
+              this.textLabelsSelection
                   .attr("x", (d) => { return (d || {x:10}).x; })
                   .attr("y", (d) => { return (d || {y:10}).y; });
             }
@@ -314,7 +320,7 @@ if(!d)
 
         }
 
-        // runPureD3()
+        runPureD3()
         runHybridGraph()
 
 
@@ -615,6 +621,12 @@ if(!d)
                   }
                 }>
                   {this.state.playTimeoutId ? "Pause" : "Play"}
+                </button>              
+                <button id="refresh-data" onClick={() => {
+                    this.refreshData()
+                  }
+                }>
+                  refresh-data
                 </button>
                 
                 <span> <span id="fps"></span> FPS </span>
