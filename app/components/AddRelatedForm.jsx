@@ -8,7 +8,8 @@ export default class AddRelatedForm extends React.Component {
       super(props);
       this.state = {
         suggestingRelations: false,
-        filter:''
+        filter:'',
+        expandedRelatedIdeas:{}
       }
     }
 
@@ -117,7 +118,21 @@ export default class AddRelatedForm extends React.Component {
           {/* output related notes list */ }
           <span style={{ marginLeft: "150px", lineHeight:"21px" }}>
             {relatedNotes.map( ({broken, note, relation}) =>
-              <span key={"relatedNote" + relation.id} style={{border:"1px solid lightgray", margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px", color:"maroon"}}>
+              <span key={"relatedNote" + relation.id} 
+                  onClick={ () => 
+                    this.setState({expandedRelatedIdeas:
+                        Object.assign({}, this.state.expandedRelatedIdeas, {[relation.id]: this.state.expandedRelatedIdeas[relation.id] ? undefined : true})
+                    }) 
+                  } 
+                  style={
+                    Object.assign(
+                    {margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px"}
+                      , 
+                        this.state.expandedRelatedIdeas[relation.id] ? 
+                          {color:"black", border:"1px solid black"} : 
+                          {color:"maroon", border:"1px solid lightgray"}
+                      )
+                  }>
                 {!broken ? note.txt : 'broken: ' + relation.userInputText}
               </span>)}
           </span>

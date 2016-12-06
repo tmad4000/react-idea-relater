@@ -609,15 +609,15 @@ if(!d)
           />
    
         </div>
-        <div style={{border:"1px solid gray",position:"relative"}} id="hybrid-graph">
+        {/*<div style={{border:"1px solid gray",position:"relative"}} id="hybrid-graph">
             <div style={{position:"absolute", top:"10px", left:"10px"}} className="floating-graph-controls">
               <button id="play-pause" onClick={() => {
-                /*if(!this.state.playTimeoutId)
-                  this.playGraph(); 
-                else 
-                  this.pauseGraph();
+                // if(!this.state.playTimeoutId)
+                //   this.playGraph(); 
+                // else 
+                //   this.pauseGraph();
 
-*/
+
                   }
                 }>
                   {this.state.playTimeoutId ? "Pause" : "Play"}
@@ -657,7 +657,7 @@ if(!d)
 
               <svg width="960" height="600"></svg> 
         </div>
-
+*/}
       </div>
 
       <br />
