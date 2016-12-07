@@ -17,8 +17,8 @@ export default class Note extends React.Component {
   finishEdit = (e) => {
     const {value} = e.target;
 
-    if (this.props.onEdit) {
-      this.props.onEdit(value);
+    if (this.props.editNote) {
+      this.props.editNote(this.props.note.id, value);
       this.setState({editing: false});
     }
 
@@ -50,7 +50,7 @@ export default class Note extends React.Component {
         autoFocus={true}
         onBlur={this.finishEdit}
         onKeyPress={this.checkEnter}
-        onChange={(e) => this.props.onEdit(e.target.value)}
+        onChange={(e) => this.props.editNote(this.props.note.id, e.target.value)}
         defaultValue={txt} />;
     }
 
@@ -63,6 +63,10 @@ export default class Note extends React.Component {
       relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
       addNote={this.props.addNote}
       allNotes={this.props.allNotes}
+
+      addRelation={this.props.addRelation}
+      editNote={this.props.editNote}
+      relations={this.props.relations}
     />
     </div>
   }
@@ -73,7 +77,7 @@ Note.propTypes = {
   note: React.PropTypes.object.isRequired,
   rawRelations: React.PropTypes.bool.isRequired,
   relatedNotes: React.PropTypes.array.isRequired,
-  onEdit: React.PropTypes.func.isRequired,
+  editNote: React.PropTypes.func.isRequired,
   allNotes: React.PropTypes.array.isRequired,
   addRelation: React.PropTypes.func.isRequired,
   addNote: React.PropTypes.func.isRequired,

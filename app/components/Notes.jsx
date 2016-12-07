@@ -4,20 +4,20 @@ import Note from './Note.jsx'
 export default class Notes extends React.Component {
 
     render() {
-
         return (
             <ul style={{overflow:"scroll"}} >
                 {
-                    this.props.filteredNotes.concat().reverse().map(
+                    this.props.filteredNotes.slice().reverse().map(
                         note =>
                             <li key={note.id} style={{margin:"10px"}}>
                                 <Note
-                                  onEdit={ (value) => this.props.onEdit(note.id, value) }
+                                  editNote={this.props.editNote}
                                   note={note}
                                   allNotes={this.props.allNotes}
                                   addRelation={this.props.addRelation}
                                   addNote={this.props.addNote}
                                   rawRelations={this.props.rawRelations}
+                                  relations={this.props.relations}
                                   relatedNotes={
                                     this.props.relations.filter(
                                       (relation) => note.id === relation.sourceId
@@ -47,7 +47,7 @@ export default class Notes extends React.Component {
 
 
 Notes.propTypes = {
-  onEdit: React.PropTypes.func.isRequired,
+  editNote: React.PropTypes.func.isRequired,
   addRelation: React.PropTypes.func.isRequired,
   addNote: React.PropTypes.func.isRequired,
   filteredNotes: React.PropTypes.array.isRequired,

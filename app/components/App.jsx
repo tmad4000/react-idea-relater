@@ -336,7 +336,7 @@ if(!d)
   componentWillMount() {
 
     let newNotes = []
-    for(let i=0; i<30; i++){
+    for(let i=0; i<10; i++){
       newNotes.push(this.createNote("Learn Webpack <b> dfdf </b>" + i))
       newNotes.push(this.createNote("Learn React"+i))
       newNotes.push(this.createNote("Do laundry"+i))
@@ -601,7 +601,7 @@ if(!d)
             <Notes
           addRelation={this.addRelation}
           addNote={this.addNote}
-          onEdit={this.editNote}
+          editNote={this.editNote}
           allNotes={this.state.notes}
           filteredNotes={filterEntries(this.state.notes, this.state.filter)}
           relations={relations}

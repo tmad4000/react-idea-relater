@@ -1,5 +1,6 @@
 import React from 'react'
 import { encodeHtmlEntity, filterEntries } from './utils.js'
+import Notes from './Notes'
 
 
 export default class AddRelatedForm extends React.Component {
@@ -136,6 +137,44 @@ export default class AddRelatedForm extends React.Component {
                 {!broken ? note.txt : 'broken: ' + relation.userInputText}
               </span>)}
           </span>
+{/*
+    //        <AddRelatedForm
+    //   note={this.props.note}
+    //   rawRelations={this.props.rawRelations}
+    //   relatedNotes={this.props.relatedNotes}
+    //   relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
+    //   addNote={this.props.addNote}
+    //   allNotes={this.props.allNotes}
+    // />
+    //   addRelation={this.props.addRelation}
+    //   onEdit={this.props.editNote}
+    //   filteredNotes={filterEntries(this.state.notes, this.state.filter)}
+    //   relations={relations}
+
+      // note={this.props.note}
+      // rawRelations={this.props.rawRelations}
+      // relatedNotes={this.props.relatedNotes}
+      // relateToCurrentIdea={ (targetId) => this.props.addRelation(id, targetId) }
+      // addNote={this.props.addNote}
+
+      // allNotes={this.props.allNotes}
+
+      // addRelation={this.props.addRelation}
+      //       addNote={this.props.addNote}
+      //       editNote={this.props.editNote}
+    */}
+
+          {/*<div>
+            <Notes
+            addRelation={this.props.addRelation}
+            addNote={this.props.addNote}
+            editNote={this.props.editNote}
+            allNotes={this.props.allNotes}
+            filteredNotes={[]}
+            relations={this.props.relations}
+            rawRelations={this.props.rawRelations}
+            />
+          </div>*/}
         </span>
 
       );
@@ -148,5 +187,9 @@ AddRelatedForm.propTypes = {
   relatedNotes: React.PropTypes.array.isRequired,
   relateToCurrentIdea: React.PropTypes.func.isRequired,
   addNote: React.PropTypes.func.isRequired,
-  note: React.PropTypes.object.isRequired
+  note: React.PropTypes.object.isRequired,
+
+  addRelation: React.PropTypes.func.isRequired,
+  relations: React.PropTypes.array.isRequired,
+  editNote: React.PropTypes.func.isRequired
 };
