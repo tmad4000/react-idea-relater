@@ -122,14 +122,14 @@ export default class AddRelatedForm extends React.Component {
               <span key={"relatedNote" + relation.id} 
                   onClick={ () => 
                     this.setState({expandedRelatedIdeas:
-                        Object.assign({}, this.state.expandedRelatedIdeas, {[relation.id]: this.state.expandedRelatedIdeas[relation.id] ? undefined : true})
+                        Object.assign({}, this.state.expandedRelatedIdeas, {[relation.targetId]: this.state.expandedRelatedIdeas[relation.targetId] ? undefined : true})
                     }) 
                   } 
                   style={
                     Object.assign(
                     {margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px"}
                       , 
-                        this.state.expandedRelatedIdeas[relation.id] ? 
+                        this.state.expandedRelatedIdeas[relation.targetId] ? 
                           {color:"black", border:"1px solid black"} : 
                           {color:"maroon", border:"1px solid lightgray"}
                       )
@@ -164,17 +164,21 @@ export default class AddRelatedForm extends React.Component {
       //       editNote={this.props.editNote}
     */}
 
-          {/*<div>
+          <div>
             <Notes
             addRelation={this.props.addRelation}
             addNote={this.props.addNote}
             editNote={this.props.editNote}
             allNotes={this.props.allNotes}
-            filteredNotes={[]}
+            filteredNotes={this.props.allNotes.filter(x => {
+              console.log(x.id, !!this.state.expandedRelatedIdeas[x.id])
+
+              return !!this.state.expandedRelatedIdeas[x.id]
+            })}
             relations={this.props.relations}
             rawRelations={this.props.rawRelations}
             />
-          </div>*/}
+          </div>
         </span>
 
       );

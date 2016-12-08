@@ -37,9 +37,9 @@ export default class Note extends React.Component {
 
     let todoDiv;
     if(!this.state.editing) {
-      todoDiv = <span onClick={this.edit} dangerouslySetInnerHTML= {{__html:htmlTxt}}>
+      todoDiv = <span onClick={this.edit} dangerouslySetInnerHTML= {{__html:txt}}></span>
+      // todoDiv = <span onClick={this.edit} dangerouslySetInnerHTML= {{__html:htmlTxt}}></span>
 
-      </span>
     }
     else {
       todoDiv = <input type="text"

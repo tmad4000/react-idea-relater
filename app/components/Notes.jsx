@@ -4,6 +4,8 @@ import Note from './Note.jsx'
 export default class Notes extends React.Component {
 
     render() {
+        console.log(this.props.filteredNotes)
+
         return (
             <ul style={{overflow:"scroll"}} >
                 {
