@@ -5,6 +5,7 @@ import Node from './Node.jsx'
 import uuid from 'node-uuid'
 import * as d3 from "d3";
 
+import NodeState from './NodeState'
 
 import { encodeHtmlEntity, filterEntries, seededRandom } from './utils.js'
 
@@ -22,7 +23,9 @@ export default class App extends React.Component {
             ],
              playTimeoutId:null
     }
-    
+
+    this._rootNodeState = new NodeState()
+
 
     // relation:
     // {
@@ -606,6 +609,7 @@ if(!d)
           filteredNotes={filterEntries(this.state.notes, this.state.filter)}
           relations={relations}
           rawRelations={this.state.rawRelations}
+          parentNodeState={this._rootNodeState}
           />
    
         </div>
