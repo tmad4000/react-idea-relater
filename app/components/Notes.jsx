@@ -14,6 +14,7 @@ export default class Notes extends React.Component {
                             <li key={note.id} style={{margin:"10px"}}>
                                 <Note
                                   editNote={this.props.editNote}
+                                  nodeState={this.props.parentNodeState.getChildState(note.id)}
                                   note={note}
                                   allNotes={this.props.allNotes}
                                   addRelation={this.props.addRelation}
@@ -50,6 +51,7 @@ export default class Notes extends React.Component {
 
 Notes.propTypes = {
   editNote: React.PropTypes.func.isRequired,
+  parentNodeState: React.PropTypes.isRequired,
   addRelation: React.PropTypes.func.isRequired,
   addNote: React.PropTypes.func.isRequired,
   filteredNotes: React.PropTypes.array.isRequired,

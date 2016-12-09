@@ -7,11 +7,24 @@ export default class AddRelatedForm extends React.Component {
 
     constructor(props) {
       super(props);
+
       this.state = {
         suggestingRelations: false,
-        filter:'',
-        expandedRelatedIdeas:{}
+        filter: '',
+        expandedRelatedIdeas: this._getExpandedIdeasFromNodeState()
       }
+    }
+
+    _getExpandedIdeasFromNodeState = () => {
+      if (!this.props.nodeState.expandedRelatedIdeas) {
+        this.props.nodeState.expandedRelatedIdeas = {}
+      }
+
+      return Object.assign({}, this.props.nodeState.expandedRelatedIdeas)
+    }
+
+    _setExpandedIdeasToNodeState = (newExpandedIdeas) => {
+      this.props.nodeState.expandedRelatedIdeas = newExpandedIdeas
     }
 
     relateToCurrentIdea = (targetId) => {
@@ -44,10 +57,22 @@ export default class AddRelatedForm extends React.Component {
       suggestions = filterEntries(suggestions, this.state.filter)
 
       return suggestions
-
     }
 
+    toggleRelatedNoteDisplay = (relation) => {
+      const expandedRelatedIdeas = this._getExpandedIdeasFromNodeState()
+      const relatedNoteId = relation.targetId
+      const currentRelatedIdeaExpansionState = expandedRelatedIdeas[relatedNoteId]
+      const toggledExpansionState = currentRelatedIdeaExpansionState ? undefined : true
 
+      expandedRelatedIdeas[relatedNoteId] = toggledExpansionState
+
+      this._setExpandedIdeasToNodeState(expandedRelatedIdeas)
+
+      this.setState({
+        expandedRelatedIdeas: expandedRelatedIdeas
+      })
+    }
 
     createAndRelate = (text) => {
       const newNoteId = this.props.addNote(text);
@@ -119,12 +144,8 @@ export default class AddRelatedForm extends React.Component {
           {/* output related notes list */ }
           <span style={{ marginLeft: "150px", lineHeight:"21px" }}>
             {relatedNotes.map( ({broken, note, relation}) =>
-              <span key={"relatedNote" + relation.id} 
-                  onClick={ () => 
-                    this.setState({expandedRelatedIdeas:
-                        Object.assign({}, this.state.expandedRelatedIdeas, {[relation.targetId]: this.state.expandedRelatedIdeas[relation.targetId] ? undefined : true})
-                    }) 
-                  } 
+              <span key={"relatedNote" + relation.id}
+                  onClick={() => this.toggleRelatedNoteDisplay(relation)}
                   style={
                     Object.assign(
                     {margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px"}
@@ -169,6 +190,7 @@ export default class AddRelatedForm extends React.Component {
             addRelation={this.props.addRelation}
             addNote={this.props.addNote}
             editNote={this.props.editNote}
+            parentNodeState={this.props.nodeState}
             allNotes={this.props.allNotes}
             filteredNotes={this.props.allNotes.filter(x => {
               console.log(x.id, !!this.state.expandedRelatedIdeas[x.id])
@@ -192,6 +214,7 @@ AddRelatedForm.propTypes = {
   relateToCurrentIdea: React.PropTypes.func.isRequired,
   addNote: React.PropTypes.func.isRequired,
   note: React.PropTypes.object.isRequired,
+  nodeState: React.PropTypes.isRequired,
 
   addRelation: React.PropTypes.func.isRequired,
   relations: React.PropTypes.array.isRequired,
