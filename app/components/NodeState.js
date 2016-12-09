@@ -5,11 +5,11 @@ export default class NodeState {
     this._childStates = {}
   }
 
-  getChildState (id) {
-    if (!this._childStates[id]) {
-      this._childStates[id] = new NodeState()
+  getChildState (nodeKey) {
+    if (!this._childStates[nodeKey]) {
+      this._childStates[nodeKey] = new NodeState()
     }
 
-    return this._childStates[id]
+    return this._childStates[nodeKey]
   }
 }
