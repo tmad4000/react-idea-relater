@@ -15,6 +15,7 @@ export default class Notes extends React.Component {
                                 <Note
                                   editNote={this.props.editNote}
                                   note={note}
+                                  stateData={this.state}
                                   allNotes={this.props.allNotes}
                                   addRelation={this.props.addRelation}
                                   addNote={this.props.addNote}

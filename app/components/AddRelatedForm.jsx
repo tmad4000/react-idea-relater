@@ -168,6 +168,7 @@ export default class AddRelatedForm extends React.Component {
             <Notes
             addRelation={this.props.addRelation}
             addNote={this.props.addNote}
+            stateData={this.state}
             editNote={this.props.editNote}
             allNotes={this.props.allNotes}
             filteredNotes={this.props.allNotes.filter(x => {

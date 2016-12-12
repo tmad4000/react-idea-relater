@@ -598,10 +598,22 @@ if(!d)
       <div className="flexcontainer">
         <div style={{border:"1px solid gray"}} >
 
+          {/* state:
+            filter: '',
+             rawRelations: false,
+             notes : [
+            ],
+            relations : [
+
+            ],
+             playTimeoutId:null
+             */}
+
             <Notes
           addRelation={this.addRelation}
           addNote={this.addNote}
           editNote={this.editNote}
+          stateData={this.state}
           allNotes={this.state.notes}
           filteredNotes={filterEntries(this.state.notes, this.state.filter)}
           relations={relations}
