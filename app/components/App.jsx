@@ -566,6 +566,12 @@ if(!d)
 
     const searchText = this.refs.filter ? this.refs.filter.value : "";
 
+    let filteredEntriesDict = {}
+    let filteredEntries = filterEntries(this.state.notes, this.state.filter)
+    filteredEntries.forEach(entry => {
+      filteredEntriesDict[entry.id] = true
+    })
+        
 
     return (
       <div>
@@ -609,13 +615,16 @@ if(!d)
              playTimeoutId:null
              */}
 
-            <Notes
+          
+          
+          <Notes
           addRelation={this.addRelation}
           addNote={this.addNote}
           editNote={this.editNote}
           stateData={this.state}
           allNotes={this.state.notes}
-          filteredNotes={filterEntries(this.state.notes, this.state.filter)}
+          filteredNotes={filteredEntries}
+          expandedRelatedIdeas={filteredEntriesDict}
           relations={relations}
           rawRelations={this.state.rawRelations}
           />

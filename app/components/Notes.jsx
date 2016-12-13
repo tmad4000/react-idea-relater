@@ -4,19 +4,17 @@ import Note from './Note.jsx'
 export default class Notes extends React.Component {
 
     render() {
-        console.log(this.props.filteredNotes)
-
         return (
             <ul style={{overflow:"scroll"}} >
                 {
                     this.props.filteredNotes.slice().reverse().map(
-                        note =>
-                            <li key={note.id} style={{margin:"10px"}}>
-                                <Note
+                        note => {
+                           return <Note
                                   editNote={this.props.editNote}
                                   note={note}
                                   stateData={this.state}
                                   allNotes={this.props.allNotes}
+                                  isHidden={!this.props.expandedRelatedIdeas[note.id]}
                                   addRelation={this.props.addRelation}
                                   addNote={this.props.addNote}
                                   rawRelations={this.props.rawRelations}
@@ -35,8 +33,7 @@ export default class Notes extends React.Component {
                                   }
 
                                   />
-                            </li>
-                    )
+                    })
                 }
             </ul>
         )
@@ -54,6 +51,7 @@ Notes.propTypes = {
   addRelation: React.PropTypes.func.isRequired,
   addNote: React.PropTypes.func.isRequired,
   filteredNotes: React.PropTypes.array.isRequired,
+  expandedRelatedIdeas: React.PropTypes.object.isRequired,
   allNotes: React.PropTypes.array.isRequired,
   relations: React.PropTypes.array.isRequired,
   rawRelations: React.PropTypes.bool.isRequired

@@ -122,7 +122,8 @@ export default class AddRelatedForm extends React.Component {
               <span key={"relatedNote" + relation.id} 
                   onClick={ () => 
                     this.setState({expandedRelatedIdeas:
-                        Object.assign({}, this.state.expandedRelatedIdeas, {[relation.targetId]: this.state.expandedRelatedIdeas[relation.targetId] ? undefined : true})
+                        Object.assign({}, this.state.expandedRelatedIdeas,
+                          {[relation.targetId]: !this.state.expandedRelatedIdeas[relation.targetId]})
                     }) 
                   } 
                   style={
@@ -172,10 +173,9 @@ export default class AddRelatedForm extends React.Component {
             editNote={this.props.editNote}
             allNotes={this.props.allNotes}
             filteredNotes={this.props.allNotes.filter(x => {
-              console.log(x.id, !!this.state.expandedRelatedIdeas[x.id])
-
-              return !!this.state.expandedRelatedIdeas[x.id]
+              return x.id in this.state.expandedRelatedIdeas
             })}
+            expandedRelatedIdeas={this.state.expandedRelatedIdeas}
             relations={this.props.relations}
             rawRelations={this.props.rawRelations}
             />

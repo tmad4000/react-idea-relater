@@ -53,8 +53,7 @@ export default class Note extends React.Component {
         onChange={(e) => this.props.editNote(this.props.note.id, e.target.value)}
         defaultValue={txt} />;
     }
-
-  return <div>
+  return <li style={{margin:"10px", display: this.props.isHidden ? "none" : "block"}}>
     {todoDiv}
     <AddRelatedForm
       note={this.props.note}
@@ -69,7 +68,7 @@ export default class Note extends React.Component {
       editNote={this.props.editNote}
       relations={this.props.relations}
     />
-    </div>
+    </li>
   }
 }
 
@@ -80,6 +79,7 @@ Note.propTypes = {
   relatedNotes: React.PropTypes.array.isRequired,
   editNote: React.PropTypes.func.isRequired,
   allNotes: React.PropTypes.array.isRequired,
+  isHidden: React.PropTypes.bool.isRequired,
   addRelation: React.PropTypes.func.isRequired,
   addNote: React.PropTypes.func.isRequired,
 };
