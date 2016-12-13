@@ -9,7 +9,7 @@ export default class Notes extends React.Component {
                 {
                     this.props.filteredNotes.slice().reverse().map(
                         note => {
-                           return <Note
+                           return <Note key={note.id}
                                   editNote={this.props.editNote}
                                   note={note}
                                   stateData={this.state}

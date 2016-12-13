@@ -128,7 +128,7 @@ export default class AddRelatedForm extends React.Component {
                   } 
                   style={
                     Object.assign(
-                    {margin: "0 5px", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px"}
+                    {margin: "0 5px", display: "inline-block", padding: "1px 5px", fontFamily: "Arial, sans serif", fontSize: "12px"}
                       , 
                         this.state.expandedRelatedIdeas[relation.targetId] ? 
                           {color:"black", border:"1px solid black"} : 
